@@ -67,15 +67,15 @@ button{cursor:pointer;border:0;background:none}
     radial-gradient(90% 70% at 0% 100%, rgba(0,0,0,.25), transparent 60%),
     linear-gradient(165deg,var(--head-a) 0%,var(--head-b) 48%,var(--head-c) 100%);
   overflow:hidden;isolation:isolate}
-.head::before{content:"";position:absolute;inset:0;background-image:var(--girih);background-size:92px 92px;opacity:.13;z-index:-1;
+.head::before{content:"";position:absolute;inset:0;background-image:var(--motif);background-size:120px 120px;opacity:.16;z-index:-1;
   -webkit-mask-image:linear-gradient(180deg,#000 30%,transparent 95%);mask-image:linear-gradient(180deg,#000 30%,transparent 95%)}
 .waves{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:58px;display:block;z-index:1}
 .waves .w1{fill:rgba(230,197,121,.18)}
-.waves .w2{fill:none;stroke:var(--gold);stroke-width:1.6;opacity:.9}
+.waves .w2{fill:none;stroke:url(#mg);stroke-width:2;opacity:.95}
 .waves .w3{fill:var(--bg);transition:fill .25s}
 .head-top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:2}
 .brand{font-family:Amiri,serif;font-weight:700;font-size:30px;line-height:1.05;
-  background:linear-gradient(180deg,var(--gold-hi),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  background:linear-gradient(180deg,#FFF3CF 0%,#E8C676 32%,#B8862E 52%,#F2D58E 72%,#C9A04E 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .brand-sub{display:block;font-size:13px;color:var(--on-head-2);margin-top:2px}
 .head-actions{display:flex;gap:8px;align-items:center}
 .icon-btn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:var(--gold-hi);
@@ -258,7 +258,7 @@ select.month-sel{border-radius:999px;border:1px solid var(--gold);background:var
   nav.tabs{top:0;bottom:0;right:0;left:auto;width:var(--nav-w);flex-direction:column;justify-content:flex-start;gap:4px;padding:22px 14px;
     border-top:0;border-left:1px solid var(--line);background:var(--card)}
   nav.tabs .nav-brand{display:block;font-family:Amiri,serif;font-size:30px;font-weight:700;text-align:center;margin:0 0 18px;
-    background:linear-gradient(180deg,var(--gold-hi),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+    background:linear-gradient(180deg,#FFF3CF 0%,#E8C676 32%,#B8862E 52%,#F2D58E 72%,#C9A04E 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
   nav.tabs button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;font-size:16px;padding:12px 16px}
   nav.tabs button.on{background:var(--green-l);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 45%,transparent)}
   .head{padding:22px 34px 74px}
@@ -314,12 +314,13 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbyN1dnagVHpEz7eRwY65uru
 const MONTHS_AR = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 const WEEK_AR = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 
-const GIRIH = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92 92'%3E%3Cg fill='none' stroke='%23F0D59A' stroke-width='1'%3E%3Cpath d='M46 15l9 21.8L76.8 46 55 55 46 76.8 37 55 15.2 46 37 36.8z'/%3E%3Cpath d='M24.2 24.2L46 33l21.8-8.8L59 46l8.8 21.8L46 59l-21.8 8.8L33 46z'/%3E%3Ccircle cx='46' cy='46' r='6.5'/%3E%3Cpath d='M0 0l15 15M92 0L77 15M0 92l15-15M92 92L77 77'/%3E%3C/g%3E%3C/svg%3E\")";
-document.documentElement.style.setProperty('--girih', GIRIH);
+const MOTIF = `url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20120%20120'%3E%3Cg%20fill='none'%20stroke='%23F0D59A'%20stroke-width='1.1'%20stroke-linejoin='round'%3E%3Ccircle%20cx='26'%20cy='34'%20r='10'/%3E%3Ccircle%20cx='38'%20cy='34'%20r='10'/%3E%3Cpath%20d='M35%2019h6l1.6%203-4.6%204.4-4.6-4.4z%20M33.4%2022h9.2'/%3E%3Ccircle%20cx='86'%20cy='94'%20r='10'/%3E%3Ccircle%20cx='98'%20cy='94'%20r='10'/%3E%3Cpath%20d='M95%2079h6l1.6%203-4.6%204.4-4.6-4.4z%20M93.4%2082h9.2'/%3E%3C/g%3E%3Cg%20fill='%23F0D59A'%3E%3Cpath%20d='M88%2030l1.4%204%204%201.4-4%201.4-1.4%204-1.4-4-4-1.4%204-1.4z'/%3E%3Cpath%20d='M24%2088l1%202.8%202.8%201-2.8%201-1%202.8-1-2.8-2.8-1%202.8-1z'/%3E%3C/g%3E%3C/svg%3E")`;
+document.documentElement.style.setProperty('--motif', MOTIF);
 
-const STAR_SVG = '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M32 4l8 20 20 8-20 8-8 20-8-20-20-8 20-8z"/><path d="M12 12l20 8 20-8-8 20 8 20-20-8-20 8 8-20z"/><circle cx="32" cy="32" r="7"/></svg>';
+const RINGS_SVG = '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><circle cx="24" cy="40" r="14"/><circle cx="40" cy="40" r="14"/><path d="M36 15h8l2.5 4.5L40 26l-6.5-6.5z"/><path d="M33.5 19.5h13M38 15l-1 4.5 3 6.5 3-6.5-1-4.5"/></svg>';
 const WAVES = `<svg class="waves" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
   <path class="w1" d="M0 26 C 180 4, 340 52, 560 30 S 940 6, 1200 28 L1200 60 L0 60 Z"/>
+  <defs><linearGradient id="mg" x1="0" x2="1"><stop offset="0" stop-color="#B8862E"/><stop offset=".25" stop-color="#F2D58E"/><stop offset=".5" stop-color="#C9A04E"/><stop offset=".75" stop-color="#FFF3CF"/><stop offset="1" stop-color="#B8862E"/></linearGradient></defs>
   <path class="w2" d="M0 36 C 200 14, 380 58, 600 36 S 980 16, 1200 38"/>
   <path class="w3" d="M0 42 C 220 22, 400 62, 620 42 S 1000 24, 1200 44 L1200 60 L0 60 Z"/></svg>`;
 
@@ -448,7 +449,7 @@ function confirmBox(title, text, okLabel, danger=false){
 async function renderLogin(){
   $('#app').innerHTML = `<div class="login">
     <header class="head"><div class="head-top" style="justify-content:flex-end;min-height:42px"><span data-install-slot>${installBtnHtml()}</span></div>
-      <span class="star">${STAR_SVG}</span><div class="brand">ورشة ${esc(localStorage.getItem('wa_name')||'الأمين')}</div><span class="brand-sub">متابعة العمال والأجور</span>${WAVES}</header>
+      <span class="star">${RINGS_SVG}</span><div class="brand">ورشة ${esc(localStorage.getItem('wa_name')||'الأمين')}</div><span class="brand-sub">متابعة العمال والأجور</span>${WAVES}</header>
     <main><div class="panel" id="login-panel"><div class="empty">جارٍ تحميل المستخدمين…</div></div></main></div>`;
   bindInstall();
   const r = await api('users');
@@ -1010,7 +1011,7 @@ function slipHtml(x, P){
   const row = (l, v) => `<tr><td>${l}</td><td class="n">${v}</td></tr>`;
   const typeLbl = x.wageType==='يومي'?'يومي':x.wageType==='شهري'?'شهري':'بالقطع فقط';
   let h = `<div class="slip">
-    <div class="slip-h"><div><div class="ws">ورشة ${esc(P.workshopName)}</div><div class="t">الورقة الشهرية · ${monthName(P.month)}</div></div>${STAR_SVG}</div>
+    <div class="slip-h"><div><div class="ws">ورشة ${esc(P.workshopName)}</div><div class="t">الورقة الشهرية · ${monthName(P.month)}</div></div>${RINGS_SVG}</div>
     <div class="slip-id">
       <div><span>العامل</span><b>${esc(x.name)}</b></div>
       <div><span>الشهر</span><b>${monthName(P.month)}</b></div>
