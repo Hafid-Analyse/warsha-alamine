@@ -243,7 +243,7 @@ select.month-sel{border-radius:999px;border:1px solid var(--gold);background:var
 .star{width:70px;height:70px;margin:10px auto 12px;display:block;color:var(--gold-hi)}
 .login main{max-width:520px}
 .users{display:grid;gap:10px;margin-bottom:14px}
-.user-btn{display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--r-lg);border:1.5px solid var(--line);background:var(--card-2);text-align:start}
+.user-btn{display:flex;align-items:center;gap:12px;padding:12px 14px;font-size:17px;border-radius:var(--r-lg);border:1.5px solid var(--line);background:var(--card-2);text-align:start}
 .user-btn.on{border-color:var(--gold);background:var(--green-l);box-shadow:inset 0 0 0 2px var(--card-2)}
 .user-btn .av{width:42px;height:42px;border-radius:50%;background:linear-gradient(180deg,#F0D59A,#C9A04E);color:#0F3D2C;display:grid;place-items:center;font-family:Amiri;font-size:21px;font-weight:700}
 .pin{letter-spacing:10px;text-align:center;font-size:24px!important}
@@ -301,6 +301,63 @@ select.month-sel{border-radius:999px;border:1px solid var(--gold);background:var
 .slip .sign{display:flex;margin-top:30px}
 .slip .sign div{width:46%;border:1px solid #bbb;border-radius:8px;height:80px;padding:6px 10px;color:#666}
 .slip .foot{margin-top:24px;border-top:1px solid #ccc;padding-top:6px;font-size:11px;color:#777;display:flex;justify-content:space-between}
+
+/* ── مؤشر المزامنة ── */
+.sync-pill{height:34px;border-radius:999px;padding:0 12px;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,.1);color:var(--on-head);border:1px solid rgba(230,197,121,.5)}
+.sync-pill svg{width:16px;height:16px}
+.sync-pill.run svg{animation:sp 1s linear infinite}
+.sync-pill.err{background:#B04A35;border-color:#F3B8A8;color:#fff}
+.failed-item{border:1px solid color-mix(in srgb,var(--brick) 35%,var(--line));background:var(--brick-l);border-radius:var(--r-md);padding:12px;margin-bottom:10px}
+.failed-item b{display:block;color:var(--ink)}
+.failed-item small{display:block;color:var(--brick);margin:4px 0 10px}
+.failed-item .row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ── لوحة المدير ── */
+.dash-today{display:flex;align-items:center;gap:14px}
+.dash-today .dot{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff}
+.dash-today .dot svg{width:22px;height:22px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.kpi{position:relative;border-radius:var(--r-lg);padding:14px 14px 12px;color:#fff;overflow:hidden;border:1px solid rgba(255,255,255,.18);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.06),var(--shadow)}
+.kpi::after{content:"";position:absolute;inset:auto -30px -40px auto;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)}
+.kpi>span{display:block;font-size:13px;opacity:.9}
+.kpi b{display:block;font-size:22px;margin:2px 0 4px;letter-spacing:.2px}
+.kpi .delta{display:inline-flex;align-items:center;gap:3px;font-size:12px;border-radius:999px;padding:1px 8px;background:rgba(255,255,255,.18)}
+.kpi.big{grid-column:1/-1}
+.kpi.big b{font-size:30px}
+.k-green{background:linear-gradient(150deg,#2A8A60,#14523A)}
+.k-gold{background:linear-gradient(150deg,#D9AE52,#9C7224)}
+.k-teal{background:linear-gradient(150deg,#2F8C9A,#1B5C68)}
+.k-amber{background:linear-gradient(150deg,#D58A3A,#9A5A1C)}
+.k-brick{background:linear-gradient(150deg,#C2604A,#86372A)}
+.k-plum{background:linear-gradient(150deg,#8C5BA0,#5A3470)}
+.k-ink{background:linear-gradient(150deg,#3E5A6E,#22384A)}
+.cmp-note{font-size:12px;color:var(--muted);margin:-4px 4px 12px}
+.chart{width:100%;height:auto;display:block}
+.chart text{font-family:"IBM Plex Sans Arabic",sans-serif;fill:var(--muted);font-size:10px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:6px;vertical-align:middle}
+.donut-wrap{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center}
+.rank{display:grid;gap:9px}
+.rank .r{display:grid;grid-template-columns:110px 1fr auto;gap:10px;align-items:center;font-size:14px}
+.rank .r .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank .track{height:12px;border-radius:999px;background:var(--card-2);border:1px solid var(--line);overflow:hidden}
+.rank .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--green))}
+.dash-grid{display:grid;gap:12px}
+.panel h3.ph{margin:0 0 10px;font-family:Amiri,serif;font-size:21px;color:var(--green-ink)}
+[data-theme="light"] .panel h3.ph{color:var(--green-d)}
+.alert-row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.alert-row:last-child{border-bottom:0}
+.mode-btn{color:var(--gold-ink)!important}
+@media (min-width:900px){
+  .kpis{grid-template-columns:repeat(4,1fr)}
+  .kpi.big{grid-column:span 2}
+  .dash-grid{grid-template-columns:1fr 1fr}
+  .dash-grid .wide{grid-column:1/-1}
+  nav.tabs .mode-btn{margin-top:auto;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent)}
+}
+
 </style>
 </head>
 <body>
@@ -330,64 +387,171 @@ const IC = {
   pieces:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>',
   month:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 19V9M10 19V5M15 19v-7M20 19v-4"/></svg>',
   print:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 8V4h10v4"/><rect x="3.5" y="8" width="17" height="8" rx="3"/><path d="M7 14h10v6H7z"/></svg>',
+  dash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3.5" y="3.5" width="7" height="9" rx="2"/><rect x="13.5" y="3.5" width="7" height="5" rx="2"/><rect x="13.5" y="11.5" width="7" height="9" rx="2"/><rect x="3.5" y="15.5" width="7" height="5" rx="2"/></svg>',
+  swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h12l-3-3M17 17H5l3 3"/></svg>',
   money:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="6" width="18" height="12" rx="3"/><circle cx="12" cy="12" r="2.6"/><path d="M6.5 9.5v5M17.5 9.5v5"/></svg>',
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>',
   right:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>',
   left:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>',
   menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h9"/></svg>',
-  install:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></svg>'
+  install:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></svg>',
+  sync:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 12a8 8 0 0 1-14 5.3M4 12a8 8 0 0 1 14-5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>',
+  warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg>',
+  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
 };
 
 /* ═══════════ الحالة والذاكرة المحلية ═══════════ */
-const S = { user:null, pin:'', boot:null, tab:'day', day:null, date:null, dirty:false, month:null, monthData:null, printMonth:null, slips:null };
-const C = { days:{}, months:{}, slips:{} };       // ذاكرة الجلسة
-try { const a = JSON.parse(localStorage.getItem('wa_auth')||'null'); if (a) { S.user = a.user; S.pin = a.pin; } } catch(e){}
-try { const b = JSON.parse(localStorage.getItem('wa_boot')||'null'); if (b && S.user && b.user && b.user.id === S.user.id) S.boot = b; } catch(e){}
-function saveBoot(b){ S.boot = b; try { localStorage.setItem('wa_boot', JSON.stringify(b)); } catch(e){} document.title = 'ورشة ' + b.settings.workshopName; localStorage.setItem('wa_name', b.settings.workshopName); }
-function dropDataCache(){ C.months = {}; C.slips = {}; }
+const LS = {
+  get(k, d=null){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+const S = { user:null, pin:'', boot:null, tab:'day', mode:'sup', day:null, date:null, dirty:false, month:null, monthData:null, printMonth:null, slips:null, dashMonth:null };
+let C = { days:{}, months:{}, slips:{}, dash:{} };
+{ const a = LS.get('wa_auth'); if (a) { S.user = a.user; S.pin = a.pin; } }
+{ const b = LS.get('wa_boot'); if (b && S.user && b.user && b.user.id === S.user.id) S.boot = b; }
+{ const c = LS.get('wa_cache'); if (c && S.boot) C = Object.assign(C, c); }
+if (S.user && S.user.role === 'مدير') S.mode = LS.get('wa_mode', 'dash');
+
+let cacheTimer = null;
+function persistCache(){ clearTimeout(cacheTimer); cacheTimer = setTimeout(() => {
+  const days = {}; Object.keys(C.days).sort().slice(-6).forEach(k => days[k] = C.days[k]);
+  LS.set('wa_cache', { days, months:C.months, slips:C.slips, dash:C.dash });
+}, 400); }
+function saveBoot(b){ S.boot = b; LS.set('wa_boot', b); document.title = 'ورشة ' + b.settings.workshopName; localStorage.setItem('wa_name', b.settings.workshopName); }
+function markStale(){ Object.values(C.months).forEach(m => m._stale = true); Object.values(C.dash).forEach(m => m._stale = true); C.slips = {}; persistCache(); }
 
 /* ═══════════ أدوات ═══════════ */
 const $ = (sel, root=document) => root.querySelector(sel);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const money = n => { n = Math.round((+n||0)*100)/100; const neg = n<0; n = Math.abs(n); const [i,d] = n.toFixed(2).split('.'); return (neg?'-':'') + i.replace(/\B(?=(\d{3})+(?!\d))/g,' ') + (d!=='00' ? ','+d : ''); };
+const money = n => { n = Math.round((+n||0)*100)/100; const neg = n<0; n = Math.abs(n); const [i,d] = n.toFixed(2).split('.'); return (neg?'-':'') + i.replace(/\B(?=(\d{3})+(?!\d))/g,',') + (d!=='00' ? '.'+d : ''); };
 const dz = n => `<span class="num">${money(n)}</span> دج`;
 const dzm = n => (+n ? `<span class="num">−${money(n)}</span> دج` : dz(0));
 const monthName = m => { if(!m) return ''; const [y,mm] = m.split('-'); return MONTHS_AR[+mm-1] + ' ' + y; };
 const dObj = s => { const [y,m,d] = s.split('-').map(Number); return new Date(Date.UTC(y,m-1,d)); };
 const addDays = (s,n) => { const d = dObj(s); d.setUTCDate(d.getUTCDate()+n); return d.toISOString().slice(0,10); };
+const addMonths = (m,n) => { const [y,mm] = m.split('-').map(Number); const d = new Date(Date.UTC(y, mm-1+n, 1)); return d.toISOString().slice(0,7); };
 const weekday = s => WEEK_AR[dObj(s).getUTCDay()];
 const dateLong = s => { const d = dObj(s); return `${weekday(s)} ${d.getUTCDate()} ${MONTHS_AR[d.getUTCMonth()]}`; };
 const dateShort = s => { const d = dObj(s); return `${d.getUTCDate()} ${MONTHS_AR[d.getUTCMonth()]}`; };
-const isSup = () => S.user && S.user.role === 'مسؤول';
+const isMgr = () => S.user && S.user.role === 'مدير';
 const offDayIdx = () => ({'الأحد':0,'الاثنين':1,'الإثنين':1,'الثلاثاء':2,'الأربعاء':3,'الخميس':4,'الجمعة':5,'السبت':6})[S.boot?.settings?.offDay] ?? 5;
 const isOff = s => dObj(s).getUTCDay() === offDayIdx();
 const typeById = id => S.boot.types.find(t=>t.id===id);
 const wageDesc = w => w.wageType==='بدون' ? 'بالقطع فقط' : (w.wageType==='يومي'?'يومي':'شهري') + (w.pieces?' + قطع':'');
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const clone = o => JSON.parse(JSON.stringify(o));
+const monthClosed = m => !!(S.boot.months.find(x => x.month === m && x.status === 'مغلق'));
+const isActiveOn = (w, date) => { if (w.joinDate && w.joinDate > date) return false; if (w.leaveDate) return w.leaveDate >= date; return w.status !== 'متوقف'; };
 
-let pending = 0;
-function bar(on){ pending += on ? 1 : -1; if (pending < 0) pending = 0; $('#topbar').classList.toggle('on', pending > 0); }
+let pendingNet = 0;
+function bar(on){ pendingNet += on ? 1 : -1; if (pendingNet < 0) pendingNet = 0; $('#topbar').classList.toggle('on', pendingNet > 0); }
 function toast(msg, err=false){
   document.querySelectorAll('.toast').forEach(t=>t.remove());
   const t = document.createElement('div'); t.className = 'toast' + (err?' err':''); t.textContent = msg;
   document.body.appendChild(t); setTimeout(()=>t.remove(), err?4200:2200);
 }
 
-async function api(action, data={}, btn=null){
-  bar(true);
-  if (btn) { btn.classList.add('busy'); btn.disabled = true; }
+/** طلب مباشر للخادم. netError = لا اتصال */
+async function rawApi(action, data={}, opId=null){
   try {
     const res = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify({ action, userId:S.user?.id, pin:S.pin, data }) });
+      body: JSON.stringify({ action, userId:S.user?.id, pin:S.pin, data, opId }) });
     const j = await res.json();
     if (j.auth === false) { logout(); }
     return j;
   } catch(e) {
-    return { ok:false, error:'تعذّر الاتصال بالخادم. تحقق من الإنترنت.' };
-  } finally {
-    bar(false);
-    if (btn && btn.isConnected) { btn.classList.remove('busy'); btn.disabled = false; }
+    return { ok:false, netError:true, error:'تعذّر الاتصال بالخادم. تحقق من الإنترنت.' };
   }
+}
+async function api(action, data={}, btn=null, silent=false){
+  if (!silent) bar(true);
+  if (btn) { btn.classList.add('busy'); btn.disabled = true; }
+  try { return await rawApi(action, data); }
+  finally { if (!silent) bar(false); if (btn && btn.isConnected) { btn.classList.remove('busy'); btn.disabled = false; } }
+}
+
+/* ═══════════ الطابور الخلفي ═══════════ */
+const Q = { items: LS.get('wa_queue', []), failed: LS.get('wa_failed', []), running:false, lastBoot:null };
+function persistQ(){ LS.set('wa_queue', Q.items); LS.set('wa_failed', Q.failed); }
+function enqueue(action, data, label){
+  Q.items.push({ opId: uid('op'), action, data, label, at: Date.now() });
+  persistQ(); syncBadge(); runQueue();
+}
+async function runQueue(){
+  if (Q.running || !S.user) return;
+  Q.running = true; syncBadge();
+  while (Q.items.length) {
+    const op = Q.items[0];
+    const r = await rawApi(op.action, op.data, op.opId);
+    if (r.netError) { Q.running = false; syncBadge(); setTimeout(runQueue, 6000); return; }   // بلا إنترنت: نعيد لاحقًا
+    Q.items.shift();
+    if (!r.ok) { Q.failed.push(Object.assign({}, op, { error: r.error, needConfirm: !!r.needConfirm, needWageApply: !!r.needWageApply })); toast('لم يُحفظ: ' + op.label, true); }
+    else onOpDone(op, r.data);
+    persistQ(); syncBadge();
+  }
+  Q.running = false; syncBadge();
+  afterDrain();
+}
+function onOpDone(op, data){
+  if (data && data.boot) Q.lastBoot = data.boot;
+  if (op.action === 'saveWorker' && op.data.worker.tmpId && data.worker) remapId(op.data.worker.tmpId, data.worker.id);
+  if (op.action === 'savePieceType' && op.data.type.tmpId && data.type) remapId(op.data.type.tmpId, data.type.id);
+  if ((op.action === 'saveDay' || op.action === 'closeWorkshopDay') && data.day) C.days[data.day.date] = data.day;
+}
+/** يستبدل الرمز المؤقت لعامل أو نوع جديد بالرمز الحقيقي في كل مكان */
+function remapId(tmp, real){
+  const swap = o => JSON.parse(JSON.stringify(o).split('"' + tmp + '"').join('"' + real + '"'));
+  Q.items = swap(Q.items); S.boot = swap(S.boot); C.days = swap(C.days); if (S.day) S.day = swap(S.day);
+  saveBoot(S.boot); persistQ();
+}
+async function afterDrain(){
+  if (Q.lastBoot) { saveBoot(Q.lastBoot); Q.lastBoot = null; }
+  markStale();
+  // تحديث صامت للشاشة الحالية
+  if (S.tab === 'day' && !S.dirty && S.date) { const r = await rawApi('dayBundle', { date:S.date }); if (r.ok && !S.dirty && S.tab === 'day' && S.date === r.data.day.date && !Q.items.length) { saveBoot(r.data.boot); C.days[S.date] = r.data.day; S.day = clone(r.data.day); dayHead(); drawDay(); persistCache(); } }
+  else if (S.tab === 'month') renderMonth(true);
+  else if (S.tab === 'dash') renderDash(true);
+  prefetchAll();
+}
+function syncHtml(){
+  if (Q.failed.length) return `<button class="sync-pill err" data-sync>${IC.warn}<span class="num">${Q.failed.length}</span> لم يُحفظ</button>`;
+  if (Q.items.length) return `<button class="sync-pill run" data-sync>${IC.sync}<span class="num">${Q.items.length}</span> قيد الإرسال</button>`;
+  return '';
+}
+function syncBadge(){ document.querySelectorAll('[data-sync-slot]').forEach(el => { el.innerHTML = syncHtml(); const b = $('[data-sync]', el); if (b) b.onclick = openSyncSheet; }); }
+function openSyncSheet(){
+  const pend = Q.items.map(o => `<div class="list-item"><div class="grow"><b>${esc(o.label)}</b><small>قيد الإرسال</small></div></div>`).join('');
+  const fail = Q.failed.map((o,i) => `<div class="failed-item"><b>${esc(o.label)}</b><small>${esc(o.error)}</small><div class="row">
+      ${o.needWageApply ? '' : `<button class="btn-small" data-retry="${i}">${o.needConfirm ? 'تأكيد رغم التجاوز' : 'إعادة المحاولة'}</button>`}
+      <button class="btn-small red" data-drop="${i}">تجاهل</button></div></div>`).join('');
+  openSheet(`<h3>المزامنة</h3><div class="sub">${Q.items.length ? 'عمليات تُرسل الآن في الخلفية.' : ''} ${Q.failed.length ? 'عمليات لم يقبلها الخادم:' : 'كل شيء محفوظ.'}</div>
+    ${fail}${pend ? `<div class="panel" style="box-shadow:none">${pend}</div>` : ''}
+    <button class="btn-ghost" id="sy-close">إغلاق</button>`, sh => {
+      $('#sy-close',sh).onclick = closeSheet;
+      sh.querySelectorAll('[data-retry]').forEach(b => b.onclick = () => {
+        const o = Q.failed.splice(+b.dataset.retry, 1)[0];
+        if (o.needConfirm) o.data.force = true;
+        Q.items.push({ opId: uid('op'), action:o.action, data:o.data, label:o.label, at:Date.now() });
+        persistQ(); closeSheet(); syncBadge(); runQueue();
+      });
+      sh.querySelectorAll('[data-drop]').forEach(b => b.onclick = () => { Q.failed.splice(+b.dataset.drop, 1); persistQ(); closeSheet(); syncBadge(); toast('تم التجاهل. حدّث البيانات من القائمة إن لزم.'); });
+    });
+}
+window.addEventListener('online', runQueue);
+
+/** تحميل كل الشاشات مسبقًا في الخلفية */
+let prefetching = false;
+async function prefetchAll(){
+  if (prefetching || !S.boot) return; prefetching = true;
+  try {
+    const om = S.boot.openMonth, cm = S.boot.today.slice(0,7);
+    if (isMgr()) { const r = await rawApi('dashboard', { month: S.dashMonth || cm }); if (r.ok) { C.dash[r.data.month] = r.data; } }
+    if (!C.months[om] || C.months[om]._stale) { const r = await rawApi('monthSummary', { month: om }); if (r.ok) C.months[om] = r.data; }
+    const closed = S.boot.months.find(m => m.status === 'مغلق');
+    if (closed && !C.slips[closed.month]) { const r = await rawApi('getPayslips', { month: closed.month }); if (r.ok) C.slips[closed.month] = r.data; }
+    persistCache();
+  } finally { prefetching = false; }
 }
 
 /* ═══════════ التثبيت ═══════════ */
@@ -458,7 +622,7 @@ async function renderLogin(){
   if (!r.ok) { panel.innerHTML = `<div class="notice warn">${esc(r.error)}</div><button class="btn-main" onclick="renderLogin()">إعادة المحاولة</button>`; return; }
   let chosen = r.data.length === 1 ? r.data[0].id : null;
   panel.innerHTML = `<div class="section-h" style="margin-top:0"><h2>من يدخل؟</h2></div>
-    <div class="users">${r.data.map(u=>`<button class="user-btn" data-id="${esc(u.id)}"><span class="av">${esc(u.name.trim()[0]||'؟')}</span><span><b>${esc(u.name)}</b><br><small style="color:var(--muted)">${u.role==='مدير'?'التقارير والمتابعة':'تسجيل يومي وإدارة كاملة'}</small></span></button>`).join('')}</div>
+    <div class="users">${r.data.map(u=>`<button class="user-btn" data-id="${esc(u.id)}"><span class="av">${esc(u.name.trim()[0]||'؟')}</span><b>${esc(u.name)}</b></button>`).join('')}</div>
     <div class="field"><label for="pin">الرمز السري</label><input id="pin" class="pin num" type="password" inputmode="numeric" autocomplete="current-password"></div>
     <button class="btn-main" id="login-btn">دخول</button>`;
   const mark = () => panel.querySelectorAll('.user-btn').forEach(b => b.classList.toggle('on', b.dataset.id === chosen));
@@ -472,34 +636,57 @@ async function renderLogin(){
     const res = await api('login', {}, $('#login-btn'));
     if (!res.ok) { S.user = null; S.pin = ''; return toast(res.error, true); }
     S.user = res.data.user;
-    localStorage.setItem('wa_auth', JSON.stringify({ user:S.user, pin:S.pin }));
+    LS.set('wa_auth', { user:S.user, pin:S.pin });
     saveBoot(res.data.boot);
+    S.mode = isMgr() ? 'dash' : 'sup';
     S.date = S.boot.nextDay;
-    renderShell(); goTab('day');
+    startApp();
   };
   $('#login-btn').onclick = go;
   $('#pin').onkeydown = e => { if (e.key === 'Enter') go(); };
 }
-function logout(){ ['wa_auth','wa_boot'].forEach(k=>localStorage.removeItem(k)); S.user=null; S.pin=''; S.boot=null; C.days={}; dropDataCache(); renderLogin(); }
+function logout(){
+  ['wa_auth','wa_boot','wa_cache','wa_mode'].forEach(k=>localStorage.removeItem(k));
+  S.user=null; S.pin=''; S.boot=null; C = { days:{}, months:{}, slips:{}, dash:{} }; renderLogin();
+}
 
 /* ═══════════ الهيكل ═══════════ */
+const SUP_TABS = [['day','اليوم'],['workers','العمال'],['pieces','القطع'],['month','الشهر'],['print','الطباعة']];
+const DASH_TABS = [['dash','التقارير'],['month','الشهر'],['print','الطباعة']];
+
+function startApp(){
+  renderShell();
+  goTab(S.mode === 'dash' ? 'dash' : 'day');
+  runQueue();
+  setTimeout(prefetchAll, 800);
+}
+
 function renderShell(){
+  const tabs = S.mode === 'dash' ? DASH_TABS : SUP_TABS;
+  const modeBtn = isMgr() ? `<button class="mode-btn" data-mode>${IC.swap}<span>${S.mode === 'dash' ? 'واجهة المسؤول' : 'التقارير'}</span></button>` : '';
   $('#app').innerHTML = `<div class="layout"><div id="head"></div><main id="main"></main></div>
   <nav class="tabs"><div class="nav-brand">${esc(S.boot.settings.workshopName)}</div>
-    ${[['day','اليوم'],['workers','العمال'],['pieces','القطع'],['month','الشهر'],['print','الطباعة']].map(([k,l])=>`<button data-tab="${k}">${IC[k]}<span>${l}</span></button>`).join('')}
+    ${tabs.map(([k,l])=>`<button data-tab="${k}">${IC[k]}<span>${l}</span></button>`).join('')}${modeBtn}
   </nav>`;
-  document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav.tabs button[data-tab]').forEach(b => b.onclick = () => {
     if (S.tab === 'day' && S.dirty && b.dataset.tab !== 'day' && !confirm('لم تحفظ تقرير اليوم. هل تريد المغادرة؟')) return;
     if (b.dataset.tab !== 'day') S.dirty = false;
     goTab(b.dataset.tab);
   });
+  const mb = $('nav.tabs [data-mode]');
+  if (mb) mb.onclick = () => {
+    if (S.dirty && !confirm('لم تحفظ تقرير اليوم. هل تريد المغادرة؟')) return;
+    S.dirty = false; S.mode = S.mode === 'dash' ? 'sup' : 'dash'; LS.set('wa_mode', S.mode);
+    if (!S.date) S.date = S.boot.nextDay;
+    renderShell(); goTab(S.mode === 'dash' ? 'dash' : 'day');
+  };
 }
 
 function goTab(tab){
   S.tab = tab;
-  document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
+  document.querySelectorAll('nav.tabs button[data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
   window.scrollTo(0,0);
-  ({ day:renderDay, workers:renderWorkers, pieces:renderPieces, month:renderMonth, print:renderPrint })[tab]();
+  ({ day:renderDay, workers:renderWorkers, pieces:renderPieces, month:renderMonth, print:renderPrint, dash:renderDash })[tab]();
 }
 
 function head({title, sub, extra='', ring=null}){
@@ -514,13 +701,14 @@ function head({title, sub, extra='', ring=null}){
   }
   $('#head').innerHTML = `<header class="head"><div class="head-inner">
     <div class="head-top">
-      <div><div class="brand">${esc(S.boot.settings.workshopName)}</div><span class="brand-sub">${esc(S.user.name)}${isSup()?'':' · عرض فقط'}</span></div>
-      <div class="head-actions"><span data-install-slot>${installBtnHtml()}</span><button class="icon-btn" id="menu-btn" aria-label="القائمة">${IC.menu}</button></div>
+      <div><div class="brand">${esc(S.boot.settings.workshopName)}</div><span class="brand-sub">${esc(S.user.name)}</span></div>
+      <div class="head-actions"><span data-sync-slot>${syncHtml()}</span><span data-install-slot>${installBtnHtml()}</span><button class="icon-btn" id="menu-btn" aria-label="القائمة">${IC.menu}</button></div>
     </div>
     <div class="head-body"><div><div class="head-title">${title}</div><div class="head-sub">${sub||''}</div>${extra}</div>${ringHtml}</div>
   </div>${WAVES}</header>`;
   $('#menu-btn').onclick = openMenu;
   bindInstall($('#head'));
+  syncBadge();
 }
 
 function openMenu(){
@@ -529,6 +717,7 @@ function openMenu(){
     <div class="field"><label>المظهر</label><div class="seg" id="theme-seg">${[['light','فاتح'],['dark','ليلي'],['auto','تلقائي']].map(([k,l])=>`<button data-t="${k}" class="${k===t?'on':''}">${l}</button>`).join('')}</div></div>
     <div class="actions">
       ${canInstall()?`<button class="btn-ghost" data-install>ثبّت التطبيق على الجهاز</button>`:''}
+      ${(Q.items.length||Q.failed.length)?`<button class="btn-ghost" id="m-sync">المزامنة (${Q.items.length + Q.failed.length})</button>`:''}
       <button class="btn-ghost" id="m-refresh">تحديث البيانات</button>
       <button class="btn-danger" id="m-out">خروج</button>
     </div>`, sh => {
@@ -537,8 +726,12 @@ function openMenu(){
         sh.querySelectorAll('#theme-seg button').forEach(x => x.classList.toggle('on', x === b));
       });
       bindInstall(sh);
-      $('#m-refresh',sh).onclick = async (e) => { C.days = {}; dropDataCache(); const r = await api('bootstrap', {}, e.currentTarget); if (r.ok) saveBoot(r.data); closeSheet(); goTab(S.tab); };
-      $('#m-out',sh).onclick = () => { closeSheet(); logout(); };
+      if ($('#m-sync',sh)) $('#m-sync',sh).onclick = openSyncSheet;
+      $('#m-refresh',sh).onclick = async (e) => { C = { days:{}, months:{}, slips:{}, dash:{} }; persistCache(); const r = await api('bootstrap', {}, e.currentTarget); if (r.ok) saveBoot(r.data); closeSheet(); goTab(S.tab); };
+      $('#m-out',sh).onclick = async () => {
+        if (Q.items.length && !(await confirmBox('عمليات لم تُرسل بعد', `هناك ${Q.items.length} عملية قيد الإرسال. إن خرجت الآن قد لا تُحفظ.`, 'خروج رغم ذلك', true))) return;
+        closeSheet(); Q.items = []; Q.failed = []; persistQ(); logout();
+      };
     });
 }
 
@@ -559,27 +752,54 @@ function dayHead(){
   $('#d-next').onclick = () => moveDay(1);
 }
 
+/** يبني يومًا محليًا بلا انتظار الخادم (بعد حفظ يوم سابق) */
+function localAccess(date){
+  const b = S.boot;
+  if (date > b.today) return { ok:false, reason:'لا يمكن ملء يوم لم يأتِ بعد' };
+  if (date < b.settings.startDate) return { ok:false, reason:'هذا اليوم قبل تاريخ بداية التسجيل' };
+  if (isOff(date)) return { ok:false, reason:'عطلة أسبوعية' };
+  if (monthClosed(date.slice(0,7))) return { ok:false, reason:'شهر ' + date.slice(0,7) + ' مغلق' };
+  if (b.pendingDays.length && b.pendingDays[0] < date) return { ok:false, reason:'يجب ملء تقرير يوم ' + b.pendingDays[0] + ' أولًا', blockedBy:b.pendingDays[0] };
+  return { ok:true };
+}
+function recentFor(wid){
+  const seen = [];
+  Object.keys(C.days).sort().reverse().forEach(k => { const w = (C.days[k].workers||[]).find(x => x.id === wid); if (w) { (w.pieceItems||[]).forEach(p => { if (!seen.includes(p.typeId)) seen.push(p.typeId); }); (w.recentTypes||[]).forEach(t => { if (!seen.includes(t)) seen.push(t); }); } });
+  return seen.slice(0, 8);
+}
+function lastBalances(){
+  const ks = Object.keys(C.days).sort().reverse();
+  for (const k of ks) if (C.days[k].balances) return { month: C.days[k].balanceMonth, balances: clone(C.days[k].balances) };
+  return { month: S.boot.openMonth, balances: {} };
+}
+function buildLocalDay(date){
+  const acc = localAccess(date), lb = lastBalances();
+  return { date, local:true, isOffDay: isOff(date), dayStatus:'جديد', savedBy:'', canEdit: acc.ok, reason: acc.ok ? '' : acc.reason, blockedBy: acc.blockedBy || '',
+    balanceMonth: lb.month, balances: lb.balances,
+    workers: S.boot.workers.filter(w => isActiveOn(w, date)).map(w => ({ id:w.id, name:w.name, wageType:w.wageType, pieces:w.pieces, hours:w.hours,
+      status:'حاضر', absHours:0, otHours:0, pieceItems:[], recentTypes: recentFor(w.id), movements:[] })) };
+}
+
 async function renderDay(){
   if (!S.date) S.date = S.boot.nextDay;
   dayHead();
   const date = S.date;
   const cached = C.days[date];
-  if (cached) { S.day = JSON.parse(JSON.stringify(cached)); S.dirty = false; drawDay(); }
+  if (cached) { S.day = clone(cached); S.dirty = false; drawDay(); }
+  else if (date === S.boot.nextDay || localAccess(date).ok) { S.day = buildLocalDay(date); S.dirty = false; drawDay(); }
   else $('#main').innerHTML = skeleton();
-  const r = await api('dayBundle', { date });
-  if (S.tab !== 'day' || S.date !== date) return;
-  if (!r.ok) { if (!cached) $('#main').innerHTML = `<div class="notice warn">${esc(r.error)}</div>`; else toast(r.error, true); return; }
+  if (Q.items.length) return;      // سيُحدَّث بعد انتهاء الطابور
+  const r = await api('dayBundle', { date }, null, !!(cached || S.day));
+  if (S.tab !== 'day' || S.date !== date || Q.items.length) return;
+  if (!r.ok) { if (!S.day || S.day.date !== date) $('#main').innerHTML = `<div class="notice warn">${esc(r.error)}</div>`; return; }
   saveBoot(r.data.boot);
-  C.days[date] = r.data.day;
-  if (S.dirty) return;            // المستخدم بدأ التعديل: لا نمسح عمله
-  S.day = JSON.parse(JSON.stringify(r.data.day));
+  C.days[date] = r.data.day; persistCache();
+  if (S.dirty) return;
+  S.day = clone(r.data.day);
   dayHead(); drawDay();
-  prefetchMonth();
 }
 
-function skeleton(){
-  return `<div class="cards">${'<div class="wcard" style="height:170px;opacity:.55"></div>'.repeat(3)}</div>`;
-}
+function skeleton(){ return `<div class="cards">${'<div class="wcard" style="height:170px;opacity:.55"></div>'.repeat(3)}</div>`; }
 
 function moveDay(n){
   if (S.dirty && !confirm('لم تحفظ تقرير اليوم. هل تريد المغادرة؟')) return;
@@ -604,7 +824,7 @@ function drawDay(){
 
   const presentN = D.workers.filter(w=>w.status==='حاضر').length;
   const cards = D.workers.length ? `<div class="cards">${D.workers.map((w,i)=>workerCard(w,i,D.canEdit)).join('')}</div>`
-    : `<div class="panel empty">لا يوجد عمال نشطون في هذا اليوم.${isSup()?'<br><br><button class="btn-small" id="go-workers">أضف عاملًا</button>':''}</div>`;
+    : `<div class="panel empty">لا يوجد عمال نشطون في هذا اليوم.<br><br><button class="btn-small" id="go-workers">أضف عاملًا</button></div>`;
   const editBar = D.canEdit ? `<div class="actions day-actions">
       <button class="btn-main" id="save-day" ${D.workers.length?'':'disabled'}>${D.dayStatus==='محفوظ'?'حفظ التعديلات':'حفظ تقرير اليوم'}</button>
       <button class="btn-ghost" id="close-day">الورشة مغلقة اليوم</button></div>` : '';
@@ -613,8 +833,8 @@ function drawDay(){
   if ($('#go-block')) $('#go-block').onclick = () => { S.date = D.blockedBy; renderDay(); };
   if ($('#go-pend')) $('#go-pend').onclick = () => { S.date = pend[0]; renderDay(); };
   if ($('#go-workers')) $('#go-workers').onclick = () => goTab('workers');
-  if ($('#save-day')) $('#save-day').onclick = e => saveDay(e.currentTarget);
-  if ($('#close-day')) $('#close-day').onclick = () => closeDayFlow();
+  if ($('#save-day')) $('#save-day').onclick = saveDay;
+  if ($('#close-day')) $('#close-day').onclick = closeDayFlow;
   bindCards(main);
 }
 
@@ -628,8 +848,8 @@ function workerCard(w, i, edit){
       <b class="num ${val?'':'zero'}">${val}</b>
       ${edit?`<button class="step" data-i="${i}" data-f="${field}" data-d="-0.5" aria-label="إنقاص ${label}" ${val<=0?'disabled':''}>−</button>`:'<span></span>'}
     </div></div>`;
-  const pcsTile = w.pieces ? `<button class="tile ${pcsCount?'has':''} ${isSup()?'':'full'}" data-pcs="${i}">${IC.pieces}${pcsCount?`<span><span class="num">${pcsCount}</span> قطعة · ${pcsTypes} ${pcsTypes>2&&pcsTypes<11?'أنواع':'نوع'}</span>`:`<span>${edit?'تسجيل القطع':'لا قطع'}</span>`}</button>` : '';
-  const movTile = isSup() ? `<button class="tile ${(w.pieces && !absent)?'':'full'}" data-mov="${i}">${IC.money}<span>دفعة · منحة · خصم</span></button>` : '';
+  const pcsTile = w.pieces ? `<button class="tile ${pcsCount?'has':''}" data-pcs="${i}">${IC.pieces}${pcsCount?`<span><span class="num">${pcsCount}</span> قطعة · ${pcsTypes} ${pcsTypes>2&&pcsTypes<11?'أنواع':'نوع'}</span>`:`<span>${edit?'تسجيل القطع':'لا قطع'}</span>`}</button>` : '';
+  const movTile = `<button class="tile ${(w.pieces && !absent)?'':'full'}" data-mov="${i}">${IC.money}<span>دفعة · منحة · خصم</span></button>`;
   const movLine = w.movements.length ? `<div class="movline">${w.movements.map(m=>`${m.type} ${money(m.amount)} دج`).join(' · ')}</div>` : '';
   return `<div class="wcard ${absent?'absent':''}" data-i="${i}">
     <div class="wtop">
@@ -698,43 +918,55 @@ function openPieces(i){
     });
 }
 
-function applyDayResult(r){
-  saveBoot(r.data.boot);
-  dropDataCache();
-  C.days = {}; C.days[r.data.day.date] = r.data.day;
+/** بعد الحفظ المحلي: نحدّث الأيام الناقصة وننتقل فورًا */
+function localDayDone(date, status, stay){
+  const b = S.boot;
+  b.pendingDays = b.pendingDays.filter(x => x !== date);
+  b.nextDay = b.pendingDays.length ? b.pendingDays[0] : b.today;
+  saveBoot(b);
+  markStale();
+  const next = stay ? date : (b.pendingDays.length ? b.pendingDays[0] : date);
   S.dirty = false;
-  S.date = r.data.day.date;
-  S.day = JSON.parse(JSON.stringify(r.data.day));
+  S.date = next;
+  S.day = C.days[next] ? clone(C.days[next]) : buildLocalDay(next);
   dayHead(); drawDay();
   window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-async function saveDay(btn){
+function saveDay(){
   const D = S.day;
+  for (const w of D.workers) if (w.status === 'حاضر' && w.hours && w.absHours >= w.hours) return toast(w.name + ': ساعات الغياب يوم كامل، سجّله غائبًا', true);
   const rows = D.workers.map(w => ({ workerId:w.id, status:w.status, absHours:w.absHours, otHours:w.otHours, pieceItems:w.pieceItems }));
-  const r = await api('saveDay', { date:D.date, rows, stay: D.dayStatus === 'محفوظ' }, btn);
-  if (!r.ok) return toast(r.error, true);
+  const stay = D.dayStatus === 'محفوظ';
+  const saved = clone(D); saved.dayStatus = 'محفوظ'; saved.savedBy = S.user.name; saved.local = true;
+  C.days[D.date] = saved; persistCache();
+  enqueue('saveDay', { date:D.date, rows, stay }, 'تقرير ' + dateShort(D.date));
   toast('حُفظ تقرير ' + dateShort(D.date));
-  applyDayResult(r);
+  localDayDone(D.date, 'محفوظ', stay);
 }
 
 async function closeDayFlow(){
   const hasData = S.day.dayStatus === 'محفوظ';
   const ok = await confirmBox('الورشة مغلقة اليوم؟', `يُسجَّل ${dateLong(S.date)} يوم إغلاق: <b>بلا أجر لجميع العمال</b>، ويُخصم يوم من أصحاب الأجر الشهري.${hasData?'<br>سيُحذف تقرير هذا اليوم المحفوظ.':''}`, 'نعم، الورشة مغلقة', true);
   if (!ok) return;
-  const r = await api('closeWorkshopDay', { date:S.date }, $('#close-day'));
-  if (!r.ok) return toast(r.error, true);
+  const date = S.date;
+  const d = clone(S.day); d.dayStatus = 'مغلقة'; d.workers = d.workers.map(w => Object.assign(w, { status:'حاضر', absHours:0, otHours:0, pieceItems:[] }));
+  C.days[date] = d; persistCache();
+  enqueue('closeWorkshopDay', { date }, 'إغلاق الورشة ' + dateShort(date));
   toast('سُجّل يوم الإغلاق');
-  applyDayResult(r);
-}
-
-function prefetchMonth(){
-  const m = S.boot.openMonth;
-  if (C.months[m]) return;
-  setTimeout(async () => { if (C.months[m]) return; const r = await api('monthSummary', { month:m }); if (r.ok) C.months[m] = r.data; }, 600);
+  localDayDone(date, 'مغلقة', false);
 }
 
 /* ═══════════ الحركات المالية ═══════════ */
+function pendingAdvances(wid, month){
+  return Q.items.filter(o => o.action === 'addMovement' && o.data.workerId === wid && o.data.month === month)
+    .reduce((a,o) => a + (o.data.type === 'منحة' ? -o.data.amount : o.data.amount), 0);
+}
+function knownBalance(wid, month){
+  const src = (S.day && S.day.balanceMonth === month && S.day.balances) ? S.day.balances : (lastBalances().month === month ? lastBalances().balances : null);
+  if (!src || typeof src[wid] !== 'number') return null;
+  return src[wid] - pendingAdvances(wid, month);
+}
 function openMovement(w){
   const b = S.boot;
   const openMonths = b.months.filter(m => m.status === 'مفتوح').map(m => m.month).sort();
@@ -742,7 +974,7 @@ function openMovement(w){
   let type = 'دفعة', force = false;
   const sh = openSheet(`<h3>${esc(w.name)}</h3><div class="sub">حركة مالية</div>
     <div class="field"><div class="seg" id="mv-type">${['دفعة','منحة','خصم'].map(t=>`<button data-t="${t}">${t}</button>`).join('')}</div></div>
-    <div class="notice info" id="mv-bal">جارٍ حساب الرصيد…</div>
+    <div class="notice info" id="mv-bal"></div>
     <div class="two"><div class="field"><label for="mv-amount">المبلغ (دج)</label><input id="mv-amount" class="num" inputmode="decimal"></div>
     <div class="field"><label for="mv-month">يُحسب لشهر</label><select id="mv-month">${openMonths.map(m=>`<option value="${m}" ${m===b.openMonth?'selected':''}>${monthName(m)}</option>`).join('')}</select></div></div>
     <div class="field"><label for="mv-note" id="mv-note-l">ملاحظة</label><input id="mv-note"></div>
@@ -753,13 +985,19 @@ function openMovement(w){
   sh.querySelectorAll('#mv-type button').forEach(x => x.onclick = () => setType(x.dataset.t));
   setType(type);
   $('#mv-amount',sh).oninput = resetForce;
-  const loadBal = async () => {
+  let bal = null;
+  const showBal = async () => {
+    const m = $('#mv-month',sh).value;
+    bal = knownBalance(w.id, m);
+    if (bal !== null) { $('#mv-bal',sh).innerHTML = `رصيده في ${monthName(m)} حتى الآن: <b>${dz(bal)}</b>`; return; }
     $('#mv-bal',sh).textContent = 'جارٍ حساب الرصيد…';
-    const r = await api('getBalance', { workerId:w.id, month:$('#mv-month',sh).value });
-    if ($('#mv-bal',sh)) $('#mv-bal',sh).innerHTML = r.ok ? `رصيده في ${monthName(r.data.month)} حتى الآن: <b>${dz(r.data.balance)}</b>` : esc(r.error);
+    const r = await api('getBalance', { workerId:w.id, month:m }, null, true);
+    if (!$('#mv-bal',sh)) return;
+    if (r.ok) { bal = r.data.balance - pendingAdvances(w.id, m); $('#mv-bal',sh).innerHTML = `رصيده في ${monthName(m)} حتى الآن: <b>${dz(bal)}</b>`; }
+    else $('#mv-bal',sh).textContent = 'الرصيد غير متاح الآن، يُتحقق منه عند الإرسال.';
   };
-  $('#mv-month',sh).onchange = () => { resetForce(); loadBal(); };
-  loadBal();
+  $('#mv-month',sh).onchange = () => { resetForce(); showBal(); };
+  showBal();
   setTimeout(() => { const a = $('#mv-amount',sh); if (a) a.focus(); }, 250);
   $('#mv-cancel',sh).onclick = closeSheet;
   $('#mv-ok',sh).onclick = async e => {
@@ -767,25 +1005,29 @@ function openMovement(w){
     if (!(amount > 0)) return toast('اكتب المبلغ', true);
     const note = $('#mv-note',sh).value.trim();
     if (type !== 'دفعة' && !note) return toast('الملاحظة مطلوبة', true);
-    const r = await api('addMovement', { workerId:w.id, type, amount, note, month:$('#mv-month',sh).value, date: S.tab==='day' ? S.date : undefined, force }, e.currentTarget);
-    if (!r.ok && r.needConfirm) {
-      force = true;
-      $('#mv-warn',sh).innerHTML = `<div class="notice warn">${esc(r.error)}. اضغط الزر مرة أخرى إذا أصررت.</div>`;
-      $('#mv-ok',sh).className = 'btn-danger'; $('#mv-ok',sh).textContent = 'تأكيد رغم التجاوز';
-      return;
-    }
-    if (!r.ok) return toast(r.error, true);
-    closeSheet(); toast(`سُجّلت ${type} ${money(amount)} دج · الرصيد ${money(r.data.balance)} دج`);
-    dropDataCache();
-    if (S.tab === 'day' && S.day) {
-      const ww = S.day.workers.find(x => x.id === w.id);
-      if (ww && r.data.mov.date === S.date) {
-        ww.movements.push(r.data.mov);
-        const cw = C.days[S.date] && C.days[S.date].workers.find(x=>x.id===w.id); if (cw) cw.movements.push(r.data.mov);
-        redrawCard(S.day.workers.indexOf(ww));
+    const month = $('#mv-month',sh).value;
+    if (type === 'دفعة' && !force && bal !== null && amount > bal + 0.001) {
+      // الرصيد المحلي قد يكون قديمًا: نتحقق من الخادم قبل التنبيه
+      const r = await api('getBalance', { workerId:w.id, month }, e.currentTarget);
+      const real = r.ok ? r.data.balance - pendingAdvances(w.id, month) : bal;
+      if (amount > real + 0.001) {
+        bal = real; force = true;
+        $('#mv-bal',sh).innerHTML = `رصيده في ${monthName(month)} حتى الآن: <b>${dz(real)}</b>`;
+        $('#mv-warn',sh).innerHTML = `<div class="notice warn">ممنوع: الدفعة (${money(amount)}) أكبر من رصيد العامل (${money(real)}). اضغط الزر مرة أخرى إذا أصررت.</div>`;
+        $('#mv-ok',sh).className = 'btn-danger'; $('#mv-ok',sh).textContent = 'تأكيد رغم التجاوز';
+        return;
       }
     }
-    if (S.tab === 'month') renderMonth();
+    const mov = { id: uid('M'), date: S.tab==='day' && S.day ? S.date : S.boot.today, month, workerId:w.id, type, amount, note, over: force, by: S.user.name };
+    enqueue('addMovement', { id: mov.id, workerId:w.id, type, amount, note, month, date: mov.date, force }, `${type} ${money(amount)} دج · ${w.name}`);
+    closeSheet();
+    toast(`سُجّلت ${type} ${money(amount)} دج` + (bal !== null ? ` · الرصيد ${money(bal - (type==='منحة' ? -amount : amount))} دج` : ''));
+    markStale();
+    if (S.tab === 'day' && S.day) {
+      const ww = S.day.workers.find(x => x.id === w.id);
+      if (ww) { ww.movements.push(mov); const cw = C.days[S.date] && C.days[S.date].workers.find(x=>x.id===w.id); if (cw) cw.movements.push(mov); redrawCard(S.day.workers.indexOf(ww)); persistCache(); }
+    }
+    if (S.tab === 'month') { const M = C.months[S.month]; if (M) drawMonth(M); }
   };
 }
 
@@ -795,32 +1037,30 @@ function renderWorkers(){
   const active = ws.filter(w => w.status !== 'متوقف'), stopped = ws.filter(w => w.status === 'متوقف');
   head({ title:'العمال', sub:`${active.length} نشط${stopped.length?` · ${stopped.length} متوقف`:''}` });
   const item = w => `<div class="list-item" data-w="${esc(w.id)}" role="button" tabindex="0">
-    <div class="grow"><b>${esc(w.name)}</b><small>${wageDesc(w)}${w.wageType!=='بدون'?` · ${money(w.wage)} دج · ${w.hours} سا/يوم`:''}</small></div>
+    <div class="grow"><b>${esc(w.name)}</b><small>${wageDesc(w)}${w.wageType!=='بدون'?` · <span class="num">${money(w.wage)}</span> دج · ${w.hours} سا/يوم`:''}</small></div>
     ${w.status==='متوقف'?`<span class="tag red">متوقف</span>`:''}</div>`;
-  $('#main').innerHTML = `${isSup()?`<div class="actions" style="margin:0 0 12px;max-width:420px"><button class="btn-main" id="add-w">إضافة عامل</button></div>`:''}
+  $('#main').innerHTML = `<div class="actions" style="margin:0 0 12px;max-width:420px"><button class="btn-main" id="add-w">إضافة عامل</button></div>
     <div class="panel">${active.length?active.map(item).join(''):'<div class="empty">لا يوجد عمال بعد. أضف أول عامل.</div>'}</div>
     ${stopped.length?`<div class="section-h"><h2>المتوقفون</h2></div><div class="panel">${stopped.map(item).join('')}</div>`:''}`;
-  if ($('#add-w')) $('#add-w').onclick = () => workerForm(null);
+  $('#add-w').onclick = () => workerForm(null);
   $('#main').querySelectorAll('[data-w]').forEach(el => el.onclick = () => workerForm(ws.find(w => w.id === el.dataset.w)));
 }
 
 function workerForm(w){
-  const edit = isSup();
   const v = w || { name:'', phone:'', wageType:'يومي', wage:'', hours:8, pieces:false, joinDate:S.boot.today, leaveDate:'', status:'نشط', note:'' };
   let wageType = v.wageType;
-  const dis = edit ? '' : 'disabled';
-  const sh = openSheet(`<h3>${w?esc(w.name):'عامل جديد'}</h3><div class="sub">${w?esc(w.id):'املأ البيانات ثم احفظ'}</div>
-    <div class="field"><label for="f-name">الاسم</label><input id="f-name" value="${esc(v.name)}" ${dis}></div>
-    <div class="field"><label for="f-phone">الهاتف</label><input id="f-phone" class="num" inputmode="tel" value="${esc(v.phone)}" ${dis}></div>
-    <div class="field"><label>نوع الأجر الأساسي</label><div class="seg" id="f-type">${[['يومي','يومي'],['شهري','شهري'],['بدون','بدون (قطع فقط)']].map(([k,l])=>`<button data-t="${k}" ${dis}>${l}</button>`).join('')}</div></div>
-    <div class="two" id="f-wagebox"><div class="field"><label for="f-wage" id="f-wage-l">الأجر</label><input id="f-wage" class="num" inputmode="decimal" value="${v.wage||''}" ${dis}></div>
-    <div class="field"><label for="f-hours">ساعات العمل اليومية</label><input id="f-hours" class="num" inputmode="decimal" value="${v.hours||''}" ${dis}></div></div>
-    <label class="switch" id="f-pcs-row"><span>يعمل بالقطع أيضًا</span><input type="checkbox" id="f-pcs" ${v.pieces?'checked':''} ${dis}></label>
-    <div class="two"><div class="field"><label for="f-join">تاريخ الالتحاق</label><input id="f-join" type="date" value="${esc(v.joinDate)}" ${dis}></div>
-    <div class="field"><label for="f-leave">تاريخ المغادرة</label><input id="f-leave" type="date" value="${esc(v.leaveDate||'')}" ${dis}></div></div>
-    <label class="switch"><span>متوقف عن العمل</span><input type="checkbox" id="f-stop" ${v.status==='متوقف'?'checked':''} ${dis}></label>
-    <div class="field"><label for="f-note">ملاحظة</label><input id="f-note" value="${esc(v.note||'')}" ${dis}></div>
-    <div class="actions">${edit?`<button class="btn-main" id="f-save">حفظ</button>`:''}<button class="btn-ghost" id="f-cancel">${edit?'إلغاء':'إغلاق'}</button></div>`);
+  const sh = openSheet(`<h3>${w?esc(w.name):'عامل جديد'}</h3><div class="sub">${w && !String(w.id).startsWith('tmp')?esc(w.id):'املأ البيانات ثم احفظ'}</div>
+    <div class="field"><label for="f-name">الاسم</label><input id="f-name" value="${esc(v.name)}"></div>
+    <div class="field"><label for="f-phone">الهاتف</label><input id="f-phone" class="num" inputmode="tel" value="${esc(v.phone)}"></div>
+    <div class="field"><label>نوع الأجر الأساسي</label><div class="seg" id="f-type">${[['يومي','يومي'],['شهري','شهري'],['بدون','بدون (قطع فقط)']].map(([k,l])=>`<button data-t="${k}">${l}</button>`).join('')}</div></div>
+    <div class="two" id="f-wagebox"><div class="field"><label for="f-wage" id="f-wage-l">الأجر</label><input id="f-wage" class="num" inputmode="decimal" value="${v.wage||''}"></div>
+    <div class="field"><label for="f-hours">ساعات العمل اليومية</label><input id="f-hours" class="num" inputmode="decimal" value="${v.hours||''}"></div></div>
+    <label class="switch" id="f-pcs-row"><span>يعمل بالقطع أيضًا</span><input type="checkbox" id="f-pcs" ${v.pieces?'checked':''}></label>
+    <div class="two"><div class="field"><label for="f-join">تاريخ الالتحاق</label><input id="f-join" type="date" value="${esc(v.joinDate)}"></div>
+    <div class="field"><label for="f-leave">تاريخ المغادرة</label><input id="f-leave" type="date" value="${esc(v.leaveDate||'')}"></div></div>
+    <label class="switch"><span>متوقف عن العمل</span><input type="checkbox" id="f-stop" ${v.status==='متوقف'?'checked':''}></label>
+    <div class="field"><label for="f-note">ملاحظة</label><input id="f-note" value="${esc(v.note||'')}"></div>
+    <div class="actions"><button class="btn-main" id="f-save">حفظ</button><button class="btn-ghost" id="f-cancel">إلغاء</button></div>`);
   const setType = t => {
     wageType = t;
     sh.querySelectorAll('#f-type button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
@@ -831,26 +1071,39 @@ function workerForm(w){
   sh.querySelectorAll('#f-type button').forEach(b => b.onclick = () => setType(b.dataset.t));
   setType(wageType);
   $('#f-cancel',sh).onclick = closeSheet;
-  if (!edit) return;
-  const collect = () => ({ id: w ? w.id : undefined, name:$('#f-name',sh).value, phone:$('#f-phone',sh).value, wageType,
-      wage:$('#f-wage',sh).value, hours:$('#f-hours',sh).value, pieces: wageType==='بدون' ? true : $('#f-pcs',sh).checked,
-      joinDate:$('#f-join',sh).value, leaveDate:$('#f-leave',sh).value, status:$('#f-stop',sh).checked?'متوقف':'نشط',
-      note:$('#f-note',sh).value });
-  const done = r => { saveBoot(r.data.boot); C.days = {}; dropDataCache(); closeSheet(); toast('حُفظ العامل'); renderWorkers(); };
-  $('#f-save',sh).onclick = async e => {
-    const data = collect();
-    const r = await api('saveWorker', { worker:data }, e.currentTarget);
-    if (r.ok) return done(r);
-    if (!r.needWageApply) return toast(r.error, true);
-    const cur = S.boot.today.slice(0,7), [y,m] = cur.split('-').map(Number), nxt = m===12 ? `${y+1}-01` : `${y}-${String(m+1).padStart(2,'0')}`;
+
+  const commit = (data, wageApply) => {
+    const isNew = !w;
+    const id = isNew ? uid('tmpW') : w.id;
+    const today = S.boot.today;
+    const pub = { id, name:data.name, phone:data.phone, wageType:data.wageType, wage: data.wageType==='بدون'?0:data.wage, hours: data.wageType==='بدون'?0:data.hours,
+      pieces: data.pieces, joinDate: data.joinDate || today, leaveDate: data.leaveDate || (data.status==='متوقف' ? today : ''), status: data.status, note: data.note };
+    const send = Object.assign({}, data, { id: isNew ? undefined : id, tmpId: isNew ? id : undefined, wageApply });
+    if (isNew) S.boot.workers.push(pub); else S.boot.workers[S.boot.workers.findIndex(x => x.id === w.id)] = pub;
+    saveBoot(S.boot);
+    C.days = Object.fromEntries(Object.entries(C.days).filter(([k,d]) => d.dayStatus !== 'جديد'));  // الأيام غير المحفوظة تُعاد بناؤها بالقائمة الجديدة
+    enqueue('saveWorker', { worker: send }, (isNew ? 'إضافة ' : 'تعديل ') + data.name);
+    markStale(); closeSheet(); toast('حُفظ العامل'); renderWorkers();
+  };
+
+  $('#f-save',sh).onclick = () => {
+    const data = { name:$('#f-name',sh).value.trim(), phone:$('#f-phone',sh).value.trim(), wageType,
+      wage: parseFloat($('#f-wage',sh).value) || 0, hours: parseFloat($('#f-hours',sh).value) || 0,
+      pieces: wageType==='بدون' ? true : $('#f-pcs',sh).checked,
+      joinDate:$('#f-join',sh).value, leaveDate:$('#f-leave',sh).value, status:$('#f-stop',sh).checked?'متوقف':'نشط', note:$('#f-note',sh).value.trim() };
+    if (!data.name) return toast('اسم العامل مطلوب', true);
+    if (wageType !== 'بدون' && !(data.wage > 0)) return toast('قيمة الأجر مطلوبة', true);
+    if (wageType !== 'بدون' && !(data.hours > 0)) return toast('عدد ساعات العمل اليومية مطلوب', true);
+    if (data.leaveDate && data.joinDate && data.leaveDate < data.joinDate) return toast('تاريخ المغادرة قبل تاريخ الالتحاق', true);
+    const wageChanged = w && +w.wage !== (wageType==='بدون' ? 0 : data.wage);
+    if (!wageChanged) return commit(data);
+    const cur = S.boot.today.slice(0,7), nxt = addMonths(cur, 1);
     const s2 = openSheet(`<h3>تغيير الأجر</h3><div class="sub">من متى يُطبَّق الأجر الجديد؟ يُحسب دائمًا من أول الشهر.</div>
       <div class="actions"><button class="btn-main" data-a="current">من أول ${monthName(cur)} (الشهر الجاري)</button>
       <button class="btn-ghost" data-a="next">من أول ${monthName(nxt)} (الشهر القادم)</button></div>`);
-    s2.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => {
-      data.wageApply = b.dataset.a;
-      const r2 = await api('saveWorker', { worker:data }, b);
-      if (!r2.ok) return toast(r2.error, true);
-      done(r2);
+    s2.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
+      if (b.dataset.a === 'current' && monthClosed(cur)) return toast('شهر ' + monthName(cur) + ' مغلق', true);
+      commit(data, b.dataset.a);
     });
   };
 }
@@ -859,16 +1112,15 @@ function workerForm(w){
 function renderPieces(){
   const ts = S.boot.types;
   head({ title:'أنواع القطع', sub:`${ts.filter(t=>t.active).length} نوع نشط` });
-  $('#main').innerHTML = `${isSup()?`<div class="actions" style="margin:0 0 12px;max-width:420px"><button class="btn-main" id="add-t">إضافة نوع</button></div>`:''}
+  $('#main').innerHTML = `<div class="actions" style="margin:0 0 12px;max-width:420px"><button class="btn-main" id="add-t">إضافة نوع</button></div>
     <div class="panel">${ts.length ? ts.map(t=>`<div class="list-item" data-t="${esc(t.id)}" role="button" tabindex="0">
-      <div class="grow"><b>${esc(t.name)}</b><small>${esc(t.id)}</small></div>
+      <div class="grow"><b>${esc(t.name)}</b></div>
       ${t.active?'':'<span class="tag red">موقوف</span>'}<span class="amount">${dz(t.price)}</span></div>`).join('') : '<div class="empty">لا توجد أنواع بعد. أضف أول نوع وسعره.</div>'}</div>
     <div class="notice info">تغيير السعر يُطبَّق على ما يُسجَّل بعده فقط. القطع المسجلة سابقًا تحتفظ بسعرها.</div>`;
-  if ($('#add-t')) $('#add-t').onclick = () => typeForm(null);
+  $('#add-t').onclick = () => typeForm(null);
   $('#main').querySelectorAll('[data-t]').forEach(el => el.onclick = () => typeForm(ts.find(t => t.id === el.dataset.t)));
 }
 function typeForm(t){
-  if (!isSup()) return;
   const v = t || { name:'', price:'', active:true };
   const sh = openSheet(`<h3>${t?esc(t.name):'نوع جديد'}</h3><div class="sub">سعر القطعة الواحدة لجميع العمال</div>
     <div class="field"><label for="t-name">الاسم</label><input id="t-name" value="${esc(v.name)}"></div>
@@ -876,31 +1128,44 @@ function typeForm(t){
     <label class="switch"><span>نشط (يظهر في التسجيل)</span><input type="checkbox" id="t-act" ${v.active?'checked':''}></label>
     <div class="actions"><button class="btn-main" id="t-save">حفظ</button><button class="btn-ghost" id="t-cancel">إلغاء</button></div>`);
   $('#t-cancel',sh).onclick = closeSheet;
-  $('#t-save',sh).onclick = async e => {
-    const r = await api('savePieceType', { type:{ id:t?t.id:undefined, name:$('#t-name',sh).value, price:$('#t-price',sh).value, active:$('#t-act',sh).checked } }, e.currentTarget);
-    if (!r.ok) return toast(r.error, true);
-    saveBoot(r.data.boot); closeSheet(); toast('حُفظ النوع'); renderPieces();
+  $('#t-save',sh).onclick = () => {
+    const name = $('#t-name',sh).value.trim(), price = parseFloat($('#t-price',sh).value) || 0, active = $('#t-act',sh).checked;
+    if (!name) return toast('اسم النوع مطلوب', true);
+    if (!(price > 0)) return toast('السعر يجب أن يكون أكبر من صفر', true);
+    const isNew = !t, id = isNew ? uid('tmpT') : t.id;
+    const pub = { id, name, price, active };
+    if (isNew) S.boot.types.push(pub); else S.boot.types[S.boot.types.findIndex(x => x.id === t.id)] = pub;
+    saveBoot(S.boot);
+    enqueue('savePieceType', { type: { id: isNew ? undefined : id, tmpId: isNew ? id : undefined, name, price, active } }, (isNew ? 'إضافة نوع ' : 'تعديل نوع ') + name);
+    closeSheet(); toast('حُفظ النوع'); renderPieces();
   };
 }
 
 /* ═══════════ الشهر ═══════════ */
-async function renderMonth(){
+function monthSel(list, sel, id='month-sel'){
+  return `<div style="margin-top:10px"><select class="month-sel" id="${id}" aria-label="الشهر">${list.map(m=>`<option value="${m.month}" ${m.month===sel?'selected':''}>${monthName(m.month)}${m.status==='مغلق'?' (مغلق)':''}</option>`).join('')}</select></div>`;
+}
+async function renderMonth(silent){
   if (!S.month) S.month = S.boot.openMonth;
   const month = S.month;
-  head({ title:'الشهر', sub: monthName(month), extra:`<div style="margin-top:10px"><select class="month-sel" id="month-sel" aria-label="الشهر">${S.boot.months.map(m=>`<option value="${m.month}" ${m.month===month?'selected':''}>${monthName(m.month)}${m.status==='مغلق'?' (مغلق)':''}</option>`).join('')}</select></div>` });
-  $('#month-sel').onchange = e => { S.month = e.target.value; renderMonth(); };
-  if (C.months[month]) drawMonth(C.months[month]); else $('#main').innerHTML = skeleton();
-  const r = await api('monthSummary', { month });
+  if (!silent) {
+    head({ title:'الشهر', sub: monthName(month), extra: monthSel(S.boot.months, month) });
+    $('#month-sel').onchange = e => { S.month = e.target.value; renderMonth(); };
+    if (C.months[month]) drawMonth(C.months[month]); else $('#main').innerHTML = skeleton();
+  }
+  if (C.months[month] && !C.months[month]._stale && !silent) return;
+  if (Q.items.length) return;
+  const r = await api('monthSummary', { month }, null, !!C.months[month]);
   if (S.tab !== 'month' || S.month !== month) return;
   if (!r.ok) { if (!C.months[month]) $('#main').innerHTML = `<div class="notice warn">${esc(r.error)}</div>`; return; }
-  C.months[month] = r.data; drawMonth(r.data);
+  C.months[month] = r.data; persistCache(); drawMonth(r.data);
 }
 
 function drawMonth(M){
   S.monthData = M;
   const main = $('#main'), closed = M.status === 'مغلق', T = M.totals;
   let html = closed ? `<div class="notice ok">الشهر مغلق${M.closedBy?' بواسطة '+esc(M.closedBy):''}${M.closedAt?' في '+esc(M.closedAt):''}. الأرقام مجمّدة.</div>`
-                    : `<div class="notice info">الشهر مفتوح.${M.partial?' الأرقام محسوبة حتى اليوم.':''}${M.reopenedBy?` أُعيد فتحه بواسطة ${esc(M.reopenedBy)} في ${esc(M.reopenedAt)}.`:''}</div>`;
+                    : `<div class="notice info">الشهر مفتوح.${M.partial?' الأرقام محسوبة حتى اليوم.':''}${M.reopenedBy?` أُعيد فتحه بواسطة ${esc(M.reopenedBy)} في ${esc(M.reopenedAt)}.`:''}${M._stale||Q.items.length?' (تُحدَّث بعد إرسال العمليات)':''}</div>`;
   if (M.missingDays.length) html += `<div class="notice warn">أيام بلا تقرير: ${M.missingDays.map(dateShort).join('، ')}</div>`;
   html += `<div class="totals">
     <div class="big"><span>مجموع الصافي</span><b>${dz(T.net)}</b></div>
@@ -909,13 +1174,14 @@ function drawMonth(M){
     ${T.bonuses?`<div><span>المنح</span><b>${dz(T.bonuses)}</b></div>`:''}${T.deductions?`<div><span>الخصومات</span><b>${dz(T.deductions)}</b></div>`:''}
   </div>`;
   html += `<div class="section-h"><h2>العمال</h2></div><div class="panel">${M.rows.length ? M.rows.map(x=>`<div class="list-item" data-w="${esc(x.workerId)}" role="button" tabindex="0">
-      <div class="grow"><b>${esc(x.name)}</b><small>${x.workDays} يوم عمل${x.absentDays?` · ${x.absentDays} غياب`:''}${x.advances?` · دفعات ${money(x.advances)}`:''}</small></div>
+      <div class="grow"><b>${esc(x.name)}</b><small>${x.workDays} يوم عمل${x.absentDays?` · ${x.absentDays} غياب`:''}${x.advances?` · دفعات <span class="num">${money(x.advances)}</span>`:''}</small></div>
       <span class="amount">${dz(x.net)}</span></div>`).join('') : '<div class="empty">لا توجد بيانات لهذا الشهر.</div>'}</div>`;
-  if (isSup()) html += closed ? `<div class="actions" style="max-width:520px"><button class="btn-main" id="m-print">طباعة أوراق الشهر</button><button class="btn-ghost" id="m-reopen">إعادة فتح الشهر</button></div>`
-                              : `<div class="actions" style="max-width:520px"><button class="btn-main" id="m-close">إغلاق الشهر</button></div>`;
+  html += closed ? `<div class="actions" style="max-width:520px"><button class="btn-main" id="m-print">طباعة أوراق الشهر</button><button class="btn-ghost" id="m-reopen">إعادة فتح الشهر</button></div>`
+                 : `<div class="actions" style="max-width:520px"><button class="btn-main" id="m-close">إغلاق الشهر</button></div>`;
   main.innerHTML = html;
   main.querySelectorAll('[data-w]').forEach(el => el.onclick = () => workerDetail(el.dataset.w));
   if ($('#m-close')) $('#m-close').onclick = async () => {
+    if (Q.items.length) return toast('انتظر حتى تُرسل العمليات الجارية ثم أغلق الشهر', true);
     const ok = await confirmBox('إغلاق ' + monthName(M.month), 'بعد الإغلاق تُجمَّد الأرقام وتُتاح الطباعة، ولا يمكن تعديل أي تقرير أو حركة في هذا الشهر إلا بإعادة فتحه.', 'إغلاق الشهر');
     if (!ok) return;
     const r = await api('closeMonth', { month:M.month }, $('#m-close'));
@@ -932,8 +1198,8 @@ function drawMonth(M){
   if ($('#m-print')) $('#m-print').onclick = () => { S.printMonth = M.month; goTab('print'); };
 }
 function afterMonthWrite(r, msg){
-  saveBoot(r.data.boot); C.days = {}; dropDataCache();
-  C.months[r.data.summary.month] = r.data.summary;
+  saveBoot(r.data.boot); C.days = {}; markStale();
+  C.months[r.data.summary.month] = r.data.summary; persistCache();
   toast(msg); renderMonth();
 }
 
@@ -963,21 +1229,165 @@ async function workerDetail(id){
   const days = X.days.map(d => `<div class="list-item"><div class="grow"><b>${dateShort(d.date)}</b> <small style="display:inline">${weekday(d.date)}</small>
       <small>${d.status==='غائب'?'<span style="color:var(--brick)">غائب</span>':esc(d.status)}${d.absHours?` · غياب ${d.absHours} سا`:''}${d.otHours?` · إضافية ${d.otHours} سا`:''}${d.pieces.length?' · '+d.pieces.map(p=>`${esc(p.name)} ${p.qty}`).join('، '):''}</small></div></div>`).join('');
   const movs = X.movements.map(m => `<div class="list-item"><div class="grow"><b>${m.type} ${dz(m.amount)}</b><small>${dateShort(m.date)}${m.note?' · '+esc(m.note):''}${m.over?' · <span style="color:var(--brick)">تجاوز الرصيد</span>':''}</small></div>
-      ${isSup()&&!closed?`<button class="btn-small red" data-del="${esc(m.id)}">حذف</button>`:''}</div>`).join('');
+      ${!closed?`<button class="btn-small red" data-del="${esc(m.id)}">حذف</button>`:''}</div>`).join('');
   const sh = openSheet(`<h3>${esc(X.worker.name)}</h3><div class="sub">${monthName(X.month)} · ${wageDesc(X.worker)}</div>
     ${X.summary ? `<div class="panel" style="box-shadow:none">${breakdown(X.summary)}</div>` : ''}
-    <div class="section-h"><h2>الحركات المالية</h2>${isSup()&&!closed?`<button class="btn-small gold" id="wd-mov">+ حركة</button>`:''}</div>
+    <div class="section-h"><h2>الحركات المالية</h2>${!closed?`<button class="btn-small gold" id="wd-mov">+ حركة</button>`:''}</div>
     <div class="panel" style="box-shadow:none">${movs || '<div class="empty">لا توجد حركات.</div>'}</div>
     <div class="section-h"><h2>الأيام</h2></div>
     <div class="panel" style="box-shadow:none">${days || '<div class="empty">لا توجد أيام مسجلة.</div>'}</div>
     <button class="btn-ghost" id="wd-close">إغلاق</button>`);
   $('#wd-close',sh).onclick = closeSheet;
   if ($('#wd-mov',sh)) $('#wd-mov',sh).onclick = () => { closeSheet(); openMovement(X.worker); };
-  sh.querySelectorAll('[data-del]').forEach(b => b.onclick = async () => {
-    const r2 = await api('deleteMovement', { id:b.dataset.del }, b);
-    if (!r2.ok) return toast(r2.error, true);
-    toast('حُذفت الحركة'); dropDataCache(); renderMonth(); workerDetail(id);
+  sh.querySelectorAll('[data-del]').forEach(b => b.onclick = () => {
+    b.closest('.list-item').remove();
+    enqueue('deleteMovement', { id:b.dataset.del }, 'حذف حركة · ' + X.worker.name);
+    markStale(); toast('حُذفت الحركة');
   });
+}
+
+/* ═══════════ لوحة المدير ═══════════ */
+async function renderDash(silent){
+  const cm = S.boot.today.slice(0,7);
+  if (!S.dashMonth) S.dashMonth = cm;
+  const month = S.dashMonth;
+  if (!silent) {
+    head({ title:'التقارير', sub: monthName(month), extra: monthSel(S.boot.months, month, 'dash-sel') });
+    $('#dash-sel').onchange = e => { S.dashMonth = e.target.value; renderDash(); };
+    if (C.dash[month]) drawDash(C.dash[month]); else $('#main').innerHTML = `<div class="kpis">${'<div class="kpi k-ink" style="height:96px;opacity:.4"></div>'.repeat(4)}</div>`;
+  }
+  if (Q.items.length) return;
+  const r = await api('dashboard', { month }, null, !!C.dash[month]);
+  if (S.tab !== 'dash' || S.dashMonth !== month) return;
+  if (!r.ok) { if (!C.dash[month]) $('#main').innerHTML = `<div class="notice warn">${esc(r.error)}</div>`; return; }
+  C.dash[month] = r.data; persistCache(); drawDash(r.data);
+}
+
+function deltaHtml(cur, prev, invert=false){
+  if (prev === null || prev === undefined) return '';
+  if (!prev && !cur) return `<span class="delta">— بلا تغيير</span>`;
+  if (!prev) return `<span class="delta">جديد</span>`;
+  const p = (cur - prev) / Math.abs(prev) * 100;
+  const up = p >= 0;
+  return `<span class="delta">${up ? '▲' : '▼'} <span class="num">${Math.abs(p).toFixed(0)}%</span></span>`;
+}
+
+function drawDash(D){
+  const T = D.summary.totals, P = D.prev ? Object.assign({}, D.prev.totals) : null;
+  if (P) P.bonusMinus = P.bonuses - P.deductions;
+  const pv = k => P ? P[k] : null;
+  const att = D.attendance, attRate = (att.workDays + att.absentDays) ? Math.round(att.workDays / (att.workDays + att.absentDays) * 100) : 0;
+  const pAtt = P ? ((P.workDays + P.absentDays) ? Math.round(P.workDays / (P.workDays + P.absentDays) * 100) : 0) : null;
+  const tdy = D.today;
+  let todayHtml;
+  if (tdy.off) todayHtml = `<div class="dot" style="background:var(--gold)">${IC.day}</div><div><b>اليوم عطلة أسبوعية</b></div>`;
+  else if (tdy.closed) todayHtml = `<div class="dot" style="background:var(--muted)">${IC.x}</div><div><b>الورشة مغلقة اليوم</b></div>`;
+  else if (tdy.saved) todayHtml = `<div class="dot" style="background:var(--green)">${IC.ok}</div><div><b>تقرير اليوم محفوظ</b><br><small style="color:var(--muted)"><span class="num">${tdy.present}</span> حاضر · <span class="num">${tdy.absent}</span> غائب من <span class="num">${tdy.required}</span></small></div>`;
+  else todayHtml = `<div class="dot" style="background:var(--brick)">${IC.warn}</div><div><b>تقرير اليوم لم يُحفظ بعد</b><br><small style="color:var(--muted)">${tdy.required} عامل مطلوب</small></div>`;
+
+  const cmpNote = D.prev ? (D.prev.partial
+      ? `المقارنة مع أول <span class="num">${D.prev.days}</span> ${D.prev.days>2&&D.prev.days<11?'أيام':'يومًا'} من ${monthName(D.prev.month)}`
+      : `المقارنة مع شهر ${monthName(D.prev.month)} كاملًا`) : 'لا يوجد شهر سابق للمقارنة';
+
+  const kpi = (cls, label, val, k, big=false, isMoney=true) => `<div class="kpi ${cls} ${big?'big':''}"><span>${label}</span><b>${isMoney ? dz(val) : val}</b>${deltaHtml(typeof val === 'number' ? val : 0, pv(k))}</div>`;
+
+  let html = `<div class="panel dash-today">${todayHtml}</div>
+    <div class="kpis">
+      ${kpi('k-green','مجموع الصافي', T.net, 'net', true)}
+      ${kpi('k-teal','الأجور الأساسية', T.baseDue, 'baseDue')}
+      ${kpi('k-gold','قيمة القطع', T.piecesTotal, 'piecesTotal')}
+      ${kpi('k-amber','الساعات الإضافية', T.otValue, 'otValue')}
+      ${kpi('k-brick','الدفعات', T.advances, 'advances')}
+      ${(T.bonuses || T.deductions || (P && (P.bonuses || P.deductions))) ? kpi('k-plum','المنح − الخصومات', T.bonuses - T.deductions, 'bonusMinus') : ''}
+      <div class="kpi k-ink"><span>نسبة الحضور</span><b><span class="num">${attRate}%</span></b>${pAtt !== null ? deltaHtml(attRate, pAtt) : ''}</div>
+    </div>
+    <div class="cmp-note">${cmpNote}</div>`;
+
+  // تنبيهات
+  const alerts = [];
+  D.alerts.openMonths.forEach(m => alerts.push(`شهر ${monthName(m)} لم يُغلق بعد`));
+  if (D.alerts.missing.length) alerts.push(`أيام بلا تقرير: ${D.alerts.missing.map(dateShort).join('، ')}`);
+  D.alerts.over.forEach(o => alerts.push(`دفعة تجاوزت الرصيد: ${esc(o.name)} <span class="num">${money(o.amount)}</span> دج (${dateShort(o.date)})`));
+
+  html += `<div class="dash-grid">
+    <div class="panel wide"><h3 class="ph">الحضور اليومي</h3>${attendanceChart(D.series)}
+      <div class="legend"><span><i style="background:var(--green)"></i>حاضر</span><span><i style="background:var(--brick)"></i>غائب</span><span><i style="background:var(--line)"></i>مغلقة أو عطلة</span></div></div>
+    <div class="panel wide"><h3 class="ph">قيمة الإنتاج بالقطع يوميًا</h3>${productionChart(D.series)}</div>
+    <div class="panel"><h3 class="ph">أنواع القطع</h3>${typesDonut(D.types)}</div>
+    <div class="panel"><h3 class="ph">صافي العمال</h3>${workersRank(D.summary.rows)}</div>
+    ${alerts.length ? `<div class="panel wide"><h3 class="ph">تنبيهات</h3>${alerts.map(a => `<div class="alert-row"><span style="color:var(--brick)">●</span><span>${a}</span></div>`).join('')}</div>` : ''}
+  </div>`;
+  $('#main').innerHTML = html;
+}
+
+function attendanceChart(series){
+  if (!series.length) return '<div class="empty">لا توجد أيام بعد.</div>';
+  const W = 640, H = 170, pad = 22, n = series.length;
+  const max = Math.max(1, ...series.map(s => s.present + s.absent));
+  const bw = (W - pad*2) / n;
+  let bars = '';
+  series.forEach((s, i) => {
+    const x = W - pad - (i+1)*bw + bw*0.15, w = bw*0.7;      // من اليمين لليسار
+    const total = s.present + s.absent;
+    if (s.off || s.closed || !total) {
+      bars += `<rect x="${x}" y="${H-pad-6}" width="${w}" height="6" rx="2" fill="var(--line)"/>`;
+    } else {
+      const hp = (s.present / max) * (H - pad*2), ha = (s.absent / max) * (H - pad*2);
+      bars += `<rect x="${x}" y="${H-pad-hp}" width="${w}" height="${hp}" rx="3" fill="var(--green)"/>`;
+      if (ha) bars += `<rect x="${x}" y="${H-pad-hp-ha-1}" width="${w}" height="${ha}" rx="3" fill="var(--brick)"/>`;
+    }
+    const day = +s.date.slice(8);
+    if (n <= 12 || day % 5 === 0 || day === 1) bars += `<text x="${x + w/2}" y="${H-6}" text-anchor="middle">${day}</text>`;
+  });
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="الحضور اليومي">${bars}</svg>`;
+}
+
+function productionChart(series){
+  if (!series.length) return '<div class="empty">لا توجد أيام بعد.</div>';
+  const W = 640, H = 170, pad = 24, n = series.length;
+  const max = Math.max(1, ...series.map(s => s.value));
+  const X = i => n === 1 ? W/2 : pad + i * (W - pad*2) / (n - 1);
+  const Y = v => H - pad - (v / max) * (H - pad*2);
+  const pts = series.map((s, i) => [W - X(i), Y(s.value)]);        // من اليمين لليسار
+  const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const area = line + ` L${pts[pts.length-1][0].toFixed(1)} ${H-pad} L${pts[0][0].toFixed(1)} ${H-pad} Z`;
+  const total = series.reduce((a, s) => a + s.value, 0);
+  let labels = '';
+  series.forEach((s, i) => { const day = +s.date.slice(8); if (n <= 12 || day % 5 === 0 || day === 1) labels += `<text x="${W - X(i)}" y="${H-6}" text-anchor="middle">${day}</text>`; });
+  const best = series.reduce((b, s) => s.value > b.value ? s : b, series[0]);
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="قيمة الإنتاج">
+    <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E6C579" stop-opacity=".55"/><stop offset="1" stop-color="#E6C579" stop-opacity="0"/></linearGradient></defs>
+    <path d="${area}" fill="url(#pg)"/><path d="${line}" fill="none" stroke="#C9A04E" stroke-width="2.5" stroke-linejoin="round"/>
+    ${pts.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.6" fill="#C9A04E"/>`).join('')}${labels}</svg>
+    <div class="legend"><span>المجموع: <b>${dz(total)}</b></span>${best.value ? `<span>أعلى يوم: ${dateShort(best.date)} (${dz(best.value)})</span>` : ''}</div>`;
+}
+
+const DONUT_COLORS = ['#1E5B43','#C9A04E','#2F8C9A','#C2604A','#8C5BA0','#D58A3A','#5E8C3A','#3E5A6E'];
+function typesDonut(types){
+  if (!types.length) return '<div class="empty">لا توجد قطع مسجلة.</div>';
+  const total = types.reduce((a, t) => a + t.value, 0) || 1;
+  const R = 52, Cc = 2 * Math.PI * R;
+  let off = 0, arcs = '';
+  const top = types.slice(0, 7);
+  if (types.length > 7) top.push({ name:'أخرى', value: types.slice(7).reduce((a,t)=>a+t.value,0), qty: types.slice(7).reduce((a,t)=>a+t.qty,0) });
+  top.forEach((t, i) => {
+    const len = t.value / total * Cc;
+    arcs += `<circle cx="70" cy="70" r="${R}" fill="none" stroke="${DONUT_COLORS[i % 8]}" stroke-width="22" stroke-dasharray="${len} ${Cc - len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"/>`;
+    off += len;
+  });
+  return `<div class="donut-wrap"><svg viewBox="0 0 140 140" class="chart" role="img" aria-label="أنواع القطع">${arcs}
+      <text x="70" y="66" text-anchor="middle" style="font-size:11px">المجموع</text>
+      <text x="70" y="84" text-anchor="middle" style="font-size:13px;font-weight:700;fill:var(--ink)">${money(total)}</text></svg>
+    <div class="legend" style="flex-direction:column;gap:6px">${top.map((t, i) => `<span><i style="background:${DONUT_COLORS[i % 8]}"></i>${esc(t.name)}: <b class="num">${t.qty}</b> قطعة · <span class="num">${Math.round(t.value / total * 100)}%</span></span>`).join('')}</div></div>`;
+}
+
+function workersRank(rows){
+  if (!rows.length) return '<div class="empty">لا توجد بيانات.</div>';
+  const sorted = rows.slice().sort((a, b) => b.net - a.net);
+  const max = Math.max(1, ...sorted.map(r => Math.abs(r.net)));
+  return `<div class="rank">${sorted.map(r => `<div class="r"><span class="nm">${esc(r.name)}</span>
+    <div class="track"><div class="fill" style="width:${Math.max(2, Math.abs(r.net) / max * 100)}%;${r.net < 0 ? 'background:var(--brick)' : ''}"></div></div>
+    <b class="num" style="font-size:13px">${money(r.net)}</b></div>`).join('')}</div>`;
 }
 
 /* ═══════════ الطباعة ═══════════ */
@@ -991,16 +1401,16 @@ async function renderPrint(){
     <button class="btn-main" id="print-all">طباعة كل الأوراق</button></div><div id="slips-list" style="max-width:620px"></div>`;
   const draw = data => {
     S.slips = data;
-    $('#slips-list').innerHTML = `<div class="panel">${data.slips.map((x,i)=>`<div class="list-item"><div class="grow"><b>${esc(x.name)}</b><small>الصافي ${money(x.net)} دج</small></div><button class="btn-small" data-p="${i}">طباعة</button></div>`).join('') || '<div class="empty">لا توجد أوراق.</div>'}</div>`;
+    $('#slips-list').innerHTML = `<div class="panel">${data.slips.map((x,i)=>`<div class="list-item"><div class="grow"><b>${esc(x.name)}</b><small>الصافي <span class="num">${money(x.net)}</span> دج</small></div><button class="btn-small" data-p="${i}">طباعة</button></div>`).join('') || '<div class="empty">لا توجد أوراق.</div>'}</div>`;
     $('#slips-list').querySelectorAll('[data-p]').forEach(b => b.onclick = () => doPrint([S.slips.slips[+b.dataset.p]]));
   };
   const load = async () => {
     const m = S.printMonth;
     if (C.slips[m]) draw(C.slips[m]); else $('#slips-list').innerHTML = skeleton();
-    const r = await api('getPayslips', { month:m });
+    const r = await api('getPayslips', { month:m }, null, !!C.slips[m]);
     if (S.printMonth !== m || S.tab !== 'print') return;
-    if (!r.ok) { $('#slips-list').innerHTML = `<div class="notice warn">${esc(r.error)}</div>`; return; }
-    C.slips[m] = r.data; draw(r.data);
+    if (!r.ok) { if (!C.slips[m]) $('#slips-list').innerHTML = `<div class="notice warn">${esc(r.error)}</div>`; return; }
+    C.slips[m] = r.data; persistCache(); draw(r.data);
   };
   $('#pm').onchange = e => { S.printMonth = e.target.value; load(); };
   $('#print-all').onclick = () => S.slips && doPrint(S.slips.slips);
@@ -1045,10 +1455,11 @@ function doPrint(list){
 }
 
 /* ═══════════ البداية ═══════════ */
-window.addEventListener('beforeunload', e => { if (S.dirty) { e.preventDefault(); e.returnValue = ''; } });
-if (S.user && S.pin && S.boot) { S.date = S.boot.nextDay; renderShell(); goTab('day'); }   // فتح فوري من الذاكرة ثم تحديث في الخلفية
-else if (S.user && S.pin) { (async () => { const r = await api('bootstrap'); if (r.ok) { saveBoot(r.data); S.date = S.boot.nextDay; renderShell(); goTab('day'); } else renderLogin(); })(); }
+window.addEventListener('beforeunload', e => { if (S.dirty || Q.items.length) { e.preventDefault(); e.returnValue = ''; } });
+if (S.user && S.pin && S.boot) { S.date = S.boot.nextDay; startApp(); (async () => { const r = await rawApi('bootstrap'); if (r.ok && !Q.items.length) { saveBoot(r.data); } })(); }
+else if (S.user && S.pin) { (async () => { const r = await api('bootstrap'); if (r.ok) { saveBoot(r.data); S.date = S.boot.nextDay; startApp(); } else renderLogin(); })(); }
 else renderLogin();
+
 </script>
 </body>
 </html>
