@@ -338,7 +338,7 @@ select.month-sel{border-radius:999px;border:1px solid var(--gold);background:var
 .chart text{font-family:"IBM Plex Sans Arabic",sans-serif;fill:var(--muted);font-size:10px}
 .legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--muted);margin-top:8px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:6px;vertical-align:middle}
-.donut-wrap{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center}
+.donut-wrap{display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:center}
 .rank{display:grid;gap:9px}
 .rank .r{display:grid;grid-template-columns:110px 1fr auto;gap:10px;align-items:center;font-size:14px}
 .rank .r .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -358,6 +358,26 @@ select.month-sel{border-radius:999px;border:1px solid var(--gold);background:var
   nav.tabs .mode-btn{margin-top:auto;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent)}
 }
 
+
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin:0 2px 12px;position:sticky;top:6px;z-index:5}
+.chip{border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;background:var(--green);color:#fff;border:1px solid var(--gold);box-shadow:var(--shadow)}
+.chip.gold{background:linear-gradient(180deg,#E6C579,#C9A04E);color:#0F3D2C}
+.chip.ghost{background:var(--card);color:var(--muted);border-color:var(--line)}
+.filter-hint{font-size:13px;color:var(--muted);margin:0 4px 12px}
+.ph-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.ph-row h3.ph{margin:0}
+.seg.mini{width:auto}
+.seg.mini button{padding:5px 12px;font-size:13px;flex:none}
+.type-list{flex-direction:column;gap:4px!important}
+.type-item{display:flex;align-items:center;gap:6px;text-align:start;padding:6px 8px;border-radius:10px;font-size:13px;color:var(--muted);transition:opacity .15s,background .15s}
+.type-item i{margin-left:2px!important;flex:none}
+.type-item .tn{color:var(--ink);font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.type-item.on{background:var(--gold-l);box-shadow:inset 0 0 0 1px var(--gold)}
+.type-item.dim,.rank .r.dim{opacity:.35}
+.rank .r{width:100%;text-align:start;padding:4px 6px;border-radius:10px;transition:opacity .15s,background .15s}
+.rank .r.on{background:var(--green-l);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 55%,transparent)}
+.rank .r:active,.type-item:active{background:var(--gold-l)}
+@media (max-width:520px){.donut-wrap{grid-template-columns:1fr}.donut-wrap svg{max-width:190px;margin:0 auto}}
 </style>
 </head>
 <body>
@@ -1247,13 +1267,16 @@ async function workerDetail(id){
 }
 
 /* ═══════════ لوحة المدير ═══════════ */
+// الفلاتر تُطبَّق في الهاتف مباشرة على بيانات الشهر المحمّلة: لا رجوع للخادم عند الضغط
+const DF = { type:null, worker:null, unit:'value' };
+
 async function renderDash(silent){
   const cm = S.boot.today.slice(0,7);
   if (!S.dashMonth) S.dashMonth = cm;
   const month = S.dashMonth;
   if (!silent) {
     head({ title:'التقارير', sub: monthName(month), extra: monthSel(S.boot.months, month, 'dash-sel') });
-    $('#dash-sel').onchange = e => { S.dashMonth = e.target.value; renderDash(); };
+    $('#dash-sel').onchange = e => { S.dashMonth = e.target.value; DF.type = null; DF.worker = null; renderDash(); };
     if (C.dash[month]) drawDash(C.dash[month]); else $('#main').innerHTML = `<div class="kpis">${'<div class="kpi k-ink" style="height:96px;opacity:.4"></div>'.repeat(4)}</div>`;
   }
   if (Q.items.length) return;
@@ -1263,21 +1286,62 @@ async function renderDash(silent){
   C.dash[month] = r.data; persistCache(); drawDash(r.data);
 }
 
-function deltaHtml(cur, prev, invert=false){
+function deltaHtml(cur, prev){
   if (prev === null || prev === undefined) return '';
-  if (!prev && !cur) return `<span class="delta">— بلا تغيير</span>`;
+  if (!prev && !cur) return `<span class="delta">بلا تغيير</span>`;
   if (!prev) return `<span class="delta">جديد</span>`;
   const p = (cur - prev) / Math.abs(prev) * 100;
-  const up = p >= 0;
-  return `<span class="delta">${up ? '▲' : '▼'} <span class="num">${Math.abs(p).toFixed(0)}%</span></span>`;
+  return `<span class="delta">${p >= 0 ? '▲' : '▼'} <span class="num">${Math.abs(p).toFixed(0)}%</span></span>`;
+}
+
+const DONUT_COLORS = ['#1E5B43','#C9A04E','#2F8C9A','#C2604A','#8C5BA0','#D58A3A','#5E8C3A','#3E5A6E'];
+const workerName = (D, id) => { const r = D.summary.rows.find(x => x.workerId === id); if (r) return r.name; const w = S.boot.workers.find(x => x.id === id); return w ? w.name : id; };
+const typeName = (D, id) => (D.typeNames && D.typeNames[id]) || (typeById(id) || {}).name || id;
+
+/** يحسب كل ما تعرضه اللوحة حسب الفلاتر الحالية */
+function dashModel(D){
+  const cells = (D.cells || []).filter(c => (!DF.type || c[2] === DF.type) && (!DF.worker || c[1] === DF.worker));
+  const u = DF.unit === 'qty' ? 3 : 4;
+  // الإنتاج اليومي
+  const byDate = {}; cells.forEach(c => byDate[c[0]] = (byDate[c[0]] || 0) + c[u]);
+  const prod = D.series.map(s => ({ date:s.date, v: byDate[s.date] || 0 }));
+  // الأنواع (تتأثر بفلتر العامل فقط حتى تبقى كلها ظاهرة للاختيار)
+  const tAgg = {};
+  (D.cells || []).filter(c => !DF.worker || c[1] === DF.worker).forEach(c => { const t = tAgg[c[2]] || (tAgg[c[2]] = { typeId:c[2], qty:0, value:0 }); t.qty += c[3]; t.value += c[4]; });
+  const types = Object.values(tAgg).sort((a,b) => b.value - a.value);
+  // ترتيب العمال
+  let rank;
+  if (DF.type) {
+    const wAgg = {};
+    (D.cells || []).filter(c => c[2] === DF.type).forEach(c => wAgg[c[1]] = (wAgg[c[1]] || 0) + c[u]);
+    rank = Object.keys(wAgg).map(id => ({ id, name: workerName(D, id), v: wAgg[id] }));
+  } else rank = D.summary.rows.map(r => ({ id:r.workerId, name:r.name, v:r.net }));
+  rank.sort((a,b) => b.v - a.v);
+  // الحضور
+  const attByDate = {};
+  if (DF.worker) (D.att || []).filter(a => a[1] === DF.worker).forEach(a => attByDate[a[0]] = a[2]);
+  // البطاقات
+  const T = D.summary.totals, P = D.prev ? D.prev.totals : null;
+  let k = { net:T.net, baseDue:T.baseDue, piecesTotal:T.piecesTotal, otValue:T.otValue, advances:T.advances, bm:T.bonuses - T.deductions,
+            att: D.attendance.workDays + D.attendance.absentDays ? D.attendance.workDays / (D.attendance.workDays + D.attendance.absentDays) * 100 : 0 };
+  let pk = P ? { net:P.net, baseDue:P.baseDue, piecesTotal:P.piecesTotal, otValue:P.otValue, advances:P.advances, bm:P.bonuses - P.deductions,
+            att: P.workDays + P.absentDays ? P.workDays / (P.workDays + P.absentDays) * 100 : 0 } : null;
+  if (DF.worker) {
+    const r = D.summary.rows.find(x => x.workerId === DF.worker) || {};
+    const pr = D.prev && (D.prev.rows || []).find(x => x.workerId === DF.worker);
+    const one = x => x ? { net:x.net, baseDue:x.baseDue, piecesTotal:x.piecesTotal, otValue:x.otValue, advances:x.advances, bm:(x.bonuses||0) - (x.deductions||0),
+      att: (x.workDays + x.absentDays) ? x.workDays / (x.workDays + x.absentDays) * 100 : 0 } : null;
+    k = one(r) || k; pk = D.prev ? (one(pr) || { net:0, baseDue:0, piecesTotal:0, otValue:0, advances:0, bm:0, att:0 }) : null;
+  }
+  if (DF.type) {
+    k.piecesTotal = (D.cells || []).filter(c => c[2] === DF.type && (!DF.worker || c[1] === DF.worker)).reduce((a,c) => a + c[4], 0);
+    if (pk) pk.piecesTotal = (D.prev.byWT || []).filter(x => x[1] === DF.type && (!DF.worker || x[0] === DF.worker)).reduce((a,x) => a + x[3], 0);
+  }
+  return { prod, types, rank, attByDate, k, pk };
 }
 
 function drawDash(D){
-  const T = D.summary.totals, P = D.prev ? Object.assign({}, D.prev.totals) : null;
-  if (P) P.bonusMinus = P.bonuses - P.deductions;
-  const pv = k => P ? P[k] : null;
-  const att = D.attendance, attRate = (att.workDays + att.absentDays) ? Math.round(att.workDays / (att.workDays + att.absentDays) * 100) : 0;
-  const pAtt = P ? ((P.workDays + P.absentDays) ? Math.round(P.workDays / (P.workDays + P.absentDays) * 100) : 0) : null;
+  const M = dashModel(D);
   const tdy = D.today;
   let todayHtml;
   if (tdy.off) todayHtml = `<div class="dot" style="background:var(--gold)">${IC.day}</div><div><b>اليوم عطلة أسبوعية</b></div>`;
@@ -1288,106 +1352,133 @@ function drawDash(D){
   const cmpNote = D.prev ? (D.prev.partial
       ? `المقارنة مع أول <span class="num">${D.prev.days}</span> ${D.prev.days>2&&D.prev.days<11?'أيام':'يومًا'} من ${monthName(D.prev.month)}`
       : `المقارنة مع شهر ${monthName(D.prev.month)} كاملًا`) : 'لا يوجد شهر سابق للمقارنة';
+  const pv = key => M.pk ? M.pk[key] : null;
+  const kpi = (cls, label, key, big=false) => `<div class="kpi ${cls} ${big?'big':''}"><span>${label}</span><b>${dz(M.k[key])}</b>${deltaHtml(M.k[key], pv(key))}</div>`;
+  const showBM = M.k.bm || (M.pk && M.pk.bm);
 
-  const kpi = (cls, label, val, k, big=false, isMoney=true) => `<div class="kpi ${cls} ${big?'big':''}"><span>${label}</span><b>${isMoney ? dz(val) : val}</b>${deltaHtml(typeof val === 'number' ? val : 0, pv(k))}</div>`;
+  const filters = (DF.type || DF.worker) ? `<div class="filter-bar">
+      ${DF.worker ? `<button class="chip" data-clear="worker">${esc(workerName(D, DF.worker))} ✕</button>` : ''}
+      ${DF.type ? `<button class="chip gold" data-clear="type">${esc(typeName(D, DF.type))} ✕</button>` : ''}
+      <button class="chip ghost" data-clear="all">إلغاء الكل</button></div>` : `<div class="filter-hint">اضغط على نوع قطعة أو على عامل لتصفية التقارير</div>`;
 
-  let html = `<div class="panel dash-today">${todayHtml}</div>
-    <div class="kpis">
-      ${kpi('k-green','مجموع الصافي', T.net, 'net', true)}
-      ${kpi('k-teal','الأجور الأساسية', T.baseDue, 'baseDue')}
-      ${kpi('k-gold','قيمة القطع', T.piecesTotal, 'piecesTotal')}
-      ${kpi('k-amber','الساعات الإضافية', T.otValue, 'otValue')}
-      ${kpi('k-brick','الدفعات', T.advances, 'advances')}
-      ${(T.bonuses || T.deductions || (P && (P.bonuses || P.deductions))) ? kpi('k-plum','المنح − الخصومات', T.bonuses - T.deductions, 'bonusMinus') : ''}
-      <div class="kpi k-ink"><span>نسبة الحضور</span><b><span class="num">${attRate}%</span></b>${pAtt !== null ? deltaHtml(attRate, pAtt) : ''}</div>
-    </div>
-    <div class="cmp-note">${cmpNote}</div>`;
+  const unitSeg = `<div class="seg mini" id="unit-seg"><button data-u="value" class="${DF.unit==='value'?'on':''}">القيمة</button><button data-u="qty" class="${DF.unit==='qty'?'on':''}">العدد</button></div>`;
+  const prodTitle = 'الإنتاج اليومي' + (DF.type ? ': ' + esc(typeName(D, DF.type)) : '') + (DF.worker ? ' · ' + esc(workerName(D, DF.worker)) : '');
+  const rankTitle = DF.type ? `من صنع أكثر: ${esc(typeName(D, DF.type))}` : 'صافي العمال';
+  const attTitle = DF.worker ? `حضور ${esc(workerName(D, DF.worker))}` : 'الحضور اليومي';
 
-  // تنبيهات
   const alerts = [];
   D.alerts.openMonths.forEach(m => alerts.push(`شهر ${monthName(m)} لم يُغلق بعد`));
   if (D.alerts.missing.length) alerts.push(`أيام بلا تقرير: ${D.alerts.missing.map(dateShort).join('، ')}`);
   D.alerts.over.forEach(o => alerts.push(`دفعة تجاوزت الرصيد: ${esc(o.name)} <span class="num">${money(o.amount)}</span> دج (${dateShort(o.date)})`));
 
-  html += `<div class="dash-grid">
-    <div class="panel wide"><h3 class="ph">الحضور اليومي</h3>${attendanceChart(D.series)}
-      <div class="legend"><span><i style="background:var(--green)"></i>حاضر</span><span><i style="background:var(--brick)"></i>غائب</span><span><i style="background:var(--line)"></i>مغلقة أو عطلة</span></div></div>
-    <div class="panel wide"><h3 class="ph">قيمة الإنتاج بالقطع يوميًا</h3>${productionChart(D.series)}</div>
-    <div class="panel"><h3 class="ph">أنواع القطع</h3>${typesDonut(D.types)}</div>
-    <div class="panel"><h3 class="ph">صافي العمال</h3>${workersRank(D.summary.rows)}</div>
-    ${alerts.length ? `<div class="panel wide"><h3 class="ph">تنبيهات</h3>${alerts.map(a => `<div class="alert-row"><span style="color:var(--brick)">●</span><span>${a}</span></div>`).join('')}</div>` : ''}
-  </div>`;
-  $('#main').innerHTML = html;
+  $('#main').innerHTML = `<div class="panel dash-today">${todayHtml}</div>
+    ${filters}
+    <div class="kpis">
+      ${kpi('k-green', DF.worker ? 'صافي العامل' : 'مجموع الصافي', 'net', true)}
+      ${kpi('k-teal','الأجور الأساسية','baseDue')}
+      ${kpi('k-gold', DF.type ? 'قيمة ' + esc(typeName(D, DF.type)) : 'قيمة القطع','piecesTotal')}
+      ${kpi('k-amber','الساعات الإضافية','otValue')}
+      ${kpi('k-brick','الدفعات','advances')}
+      ${showBM ? kpi('k-plum','المنح − الخصومات','bm') : ''}
+      <div class="kpi k-ink"><span>نسبة الحضور</span><b><span class="num">${Math.round(M.k.att)}%</span></b>${M.pk ? deltaHtml(M.k.att, M.pk.att) : ''}</div>
+    </div>
+    <div class="cmp-note">${cmpNote}</div>
+    <div class="dash-grid">
+      <div class="panel wide"><div class="ph-row"><h3 class="ph">${prodTitle}</h3>${unitSeg}</div><div id="prod-chart">${productionChart(M.prod)}</div></div>
+      <div class="panel"><h3 class="ph">أنواع القطع${DF.worker ? ' · ' + esc(workerName(D, DF.worker)) : ''}</h3>${typesDonut(D, M.types)}</div>
+      <div class="panel"><h3 class="ph">${rankTitle}</h3>${workersRank(M.rank)}</div>
+      <div class="panel wide"><h3 class="ph">${attTitle}</h3>${attendanceChart(D.series, DF.worker ? M.attByDate : null)}
+        <div class="legend"><span><i style="background:var(--green)"></i>حاضر</span><span><i style="background:var(--brick)"></i>غائب</span><span><i style="background:var(--line)"></i>مغلقة أو عطلة</span></div></div>
+      ${alerts.length ? `<div class="panel wide"><h3 class="ph">تنبيهات</h3>${alerts.map(a => `<div class="alert-row"><span style="color:var(--brick)">●</span><span>${a}</span></div>`).join('')}</div>` : ''}
+    </div>`;
+
+  const main = $('#main');
+  main.querySelectorAll('[data-type]').forEach(el => el.onclick = () => { DF.type = DF.type === el.dataset.type ? null : el.dataset.type; drawDash(D); });
+  main.querySelectorAll('[data-wk]').forEach(el => el.onclick = () => { DF.worker = DF.worker === el.dataset.wk ? null : el.dataset.wk; drawDash(D); });
+  main.querySelectorAll('[data-clear]').forEach(el => el.onclick = () => { const c = el.dataset.clear; if (c !== 'worker') DF.type = null; if (c !== 'type') DF.worker = null; drawDash(D); });
+  main.querySelectorAll('#unit-seg [data-u]').forEach(el => el.onclick = () => { DF.unit = el.dataset.u; drawDash(D); });
 }
 
-function attendanceChart(series){
+function attendanceChart(series, one){
   if (!series.length) return '<div class="empty">لا توجد أيام بعد.</div>';
   const W = 640, H = 170, pad = 22, n = series.length;
-  const max = Math.max(1, ...series.map(s => s.present + s.absent));
+  const max = one ? 1 : Math.max(1, ...series.map(s => s.present + s.absent));
   const bw = (W - pad*2) / n;
   let bars = '';
   series.forEach((s, i) => {
-    const x = W - pad - (i+1)*bw + bw*0.15, w = bw*0.7;      // من اليمين لليسار
-    const total = s.present + s.absent;
-    if (s.off || s.closed || !total) {
-      bars += `<rect x="${x}" y="${H-pad-6}" width="${w}" height="6" rx="2" fill="var(--line)"/>`;
+    const x = W - pad - (i+1)*bw + bw*0.15, w = bw*0.7, full = H - pad*2;
+    if (one) {
+      const st = one[s.date];
+      if (s.off || s.closed || st === undefined) bars += `<rect x="${x}" y="${H-pad-6}" width="${w}" height="6" rx="2" fill="var(--line)"/>`;
+      else bars += `<rect x="${x}" y="${pad}" width="${w}" height="${full}" rx="3" fill="${st ? 'var(--green)' : 'var(--brick)'}"/>`;
     } else {
-      const hp = (s.present / max) * (H - pad*2), ha = (s.absent / max) * (H - pad*2);
-      bars += `<rect x="${x}" y="${H-pad-hp}" width="${w}" height="${hp}" rx="3" fill="var(--green)"/>`;
-      if (ha) bars += `<rect x="${x}" y="${H-pad-hp-ha-1}" width="${w}" height="${ha}" rx="3" fill="var(--brick)"/>`;
+      const total = s.present + s.absent;
+      if (s.off || s.closed || !total) bars += `<rect x="${x}" y="${H-pad-6}" width="${w}" height="6" rx="2" fill="var(--line)"/>`;
+      else {
+        const hp = (s.present / max) * full, ha = (s.absent / max) * full;
+        bars += `<rect x="${x}" y="${H-pad-hp}" width="${w}" height="${hp}" rx="3" fill="var(--green)"/>`;
+        if (ha) bars += `<rect x="${x}" y="${H-pad-hp-ha-1}" width="${w}" height="${ha}" rx="3" fill="var(--brick)"/>`;
+      }
     }
     const day = +s.date.slice(8);
     if (n <= 12 || day % 5 === 0 || day === 1) bars += `<text x="${x + w/2}" y="${H-6}" text-anchor="middle">${day}</text>`;
   });
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="الحضور اليومي">${bars}</svg>`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="الحضور">${bars}</svg>`;
 }
 
-function productionChart(series){
-  if (!series.length) return '<div class="empty">لا توجد أيام بعد.</div>';
-  const W = 640, H = 170, pad = 24, n = series.length;
-  const max = Math.max(1, ...series.map(s => s.value));
-  const X = i => n === 1 ? W/2 : pad + i * (W - pad*2) / (n - 1);
+function productionChart(prod){
+  if (!prod.length) return '<div class="empty">لا توجد أيام بعد.</div>';
+  const isQty = DF.unit === 'qty';
+  const W = 640, H = 170, pad = 24, n = prod.length;
+  const max = Math.max(1, ...prod.map(s => s.v));
+  const X = i => n === 1 ? W/2 : W - (pad + i * (W - pad*2) / (n - 1));
   const Y = v => H - pad - (v / max) * (H - pad*2);
-  const pts = series.map((s, i) => [W - X(i), Y(s.value)]);        // من اليمين لليسار
+  const pts = prod.map((s, i) => [X(i), Y(s.v)]);
   const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
   const area = line + ` L${pts[pts.length-1][0].toFixed(1)} ${H-pad} L${pts[0][0].toFixed(1)} ${H-pad} Z`;
-  const total = series.reduce((a, s) => a + s.value, 0);
+  const total = prod.reduce((a, s) => a + s.v, 0);
   let labels = '';
-  series.forEach((s, i) => { const day = +s.date.slice(8); if (n <= 12 || day % 5 === 0 || day === 1) labels += `<text x="${W - X(i)}" y="${H-6}" text-anchor="middle">${day}</text>`; });
-  const best = series.reduce((b, s) => s.value > b.value ? s : b, series[0]);
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="قيمة الإنتاج">
-    <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E6C579" stop-opacity=".55"/><stop offset="1" stop-color="#E6C579" stop-opacity="0"/></linearGradient></defs>
-    <path d="${area}" fill="url(#pg)"/><path d="${line}" fill="none" stroke="#C9A04E" stroke-width="2.5" stroke-linejoin="round"/>
-    ${pts.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.6" fill="#C9A04E"/>`).join('')}${labels}</svg>
-    <div class="legend"><span>المجموع: <b>${dz(total)}</b></span>${best.value ? `<span>أعلى يوم: ${dateShort(best.date)} (${dz(best.value)})</span>` : ''}</div>`;
+  prod.forEach((s, i) => { const day = +s.date.slice(8); if (n <= 12 || day % 5 === 0 || day === 1) labels += `<text x="${X(i)}" y="${H-6}" text-anchor="middle">${day}</text>`; });
+  const best = prod.reduce((b, s) => s.v > b.v ? s : b, prod[0]);
+  const fmtV = v => isQty ? `<span class="num">${money(v)}</span> قطعة` : dz(v);
+  const col = isQty ? '#2F8C9A' : '#C9A04E';
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="الإنتاج اليومي">
+    <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".5"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>
+    <path d="${area}" fill="url(#pg)"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round"/>
+    ${pts.map((p, i) => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${prod[i].v ? 3 : 1.6}" fill="${col}"><title>${dateShort(prod[i].date)}: ${money(prod[i].v)}</title></circle>`).join('')}${labels}</svg>
+    <div class="legend"><span>المجموع: <b>${fmtV(total)}</b></span>${best.v ? `<span>أعلى يوم: ${dateShort(best.date)} (${fmtV(best.v)})</span>` : ''}</div>`;
 }
 
-const DONUT_COLORS = ['#1E5B43','#C9A04E','#2F8C9A','#C2604A','#8C5BA0','#D58A3A','#5E8C3A','#3E5A6E'];
-function typesDonut(types){
+function typesDonut(D, types){
   if (!types.length) return '<div class="empty">لا توجد قطع مسجلة.</div>';
-  const total = types.reduce((a, t) => a + t.value, 0) || 1;
+  const key = DF.unit === 'qty' ? 'qty' : 'value';
+  const total = types.reduce((a, t) => a + t[key], 0) || 1;
   const R = 52, Cc = 2 * Math.PI * R;
   let off = 0, arcs = '';
-  const top = types.slice(0, 7);
-  if (types.length > 7) top.push({ name:'أخرى', value: types.slice(7).reduce((a,t)=>a+t.value,0), qty: types.slice(7).reduce((a,t)=>a+t.qty,0) });
-  top.forEach((t, i) => {
-    const len = t.value / total * Cc;
-    arcs += `<circle cx="70" cy="70" r="${R}" fill="none" stroke="${DONUT_COLORS[i % 8]}" stroke-width="22" stroke-dasharray="${len} ${Cc - len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"/>`;
+  types.forEach((t, i) => {
+    const len = t[key] / total * Cc;
+    const dim = DF.type && DF.type !== t.typeId;
+    arcs += `<circle data-type="${esc(t.typeId)}" style="cursor:pointer;opacity:${dim ? .25 : 1};transition:opacity .15s" cx="70" cy="70" r="${R}" fill="none" stroke="${DONUT_COLORS[i % 8]}" stroke-width="${DF.type === t.typeId ? 28 : 22}" stroke-dasharray="${Math.max(0.01, len)} ${Cc - len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"><title>${esc(typeName(D, t.typeId))}</title></circle>`;
     off += len;
   });
+  const sel = DF.type && types.find(t => t.typeId === DF.type);
+  const centerVal = sel ? sel[key] : total;
   return `<div class="donut-wrap"><svg viewBox="0 0 140 140" class="chart" role="img" aria-label="أنواع القطع">${arcs}
-      <text x="70" y="66" text-anchor="middle" style="font-size:11px">المجموع</text>
-      <text x="70" y="84" text-anchor="middle" style="font-size:13px;font-weight:700;fill:var(--ink)">${money(total)}</text></svg>
-    <div class="legend" style="flex-direction:column;gap:6px">${top.map((t, i) => `<span><i style="background:${DONUT_COLORS[i % 8]}"></i>${esc(t.name)}: <b class="num">${t.qty}</b> قطعة · <span class="num">${Math.round(t.value / total * 100)}%</span></span>`).join('')}</div></div>`;
+      <text x="70" y="66" text-anchor="middle" style="font-size:10px">${sel ? esc(typeName(D, sel.typeId)).slice(0, 14) : 'المجموع'}</text>
+      <text x="70" y="84" text-anchor="middle" style="font-size:13px;font-weight:700;fill:var(--ink)">${money(centerVal)}</text></svg>
+    <div class="legend type-list">${types.map((t, i) => `<button class="type-item ${DF.type === t.typeId ? 'on' : ''} ${DF.type && DF.type !== t.typeId ? 'dim' : ''}" data-type="${esc(t.typeId)}">
+      <i style="background:${DONUT_COLORS[i % 8]}"></i><span class="tn">${esc(typeName(D, t.typeId))}</span>
+      <b class="num">${t.qty}</b> قطعة · <span class="num">${Math.round(t[key] / total * 100)}%</span></button>`).join('')}</div></div>`;
 }
 
-function workersRank(rows){
-  if (!rows.length) return '<div class="empty">لا توجد بيانات.</div>';
-  const sorted = rows.slice().sort((a, b) => b.net - a.net);
-  const max = Math.max(1, ...sorted.map(r => Math.abs(r.net)));
-  return `<div class="rank">${sorted.map(r => `<div class="r"><span class="nm">${esc(r.name)}</span>
-    <div class="track"><div class="fill" style="width:${Math.max(2, Math.abs(r.net) / max * 100)}%;${r.net < 0 ? 'background:var(--brick)' : ''}"></div></div>
-    <b class="num" style="font-size:13px">${money(r.net)}</b></div>`).join('')}</div>`;
+function workersRank(rank){
+  if (!rank.length) return '<div class="empty">لا توجد بيانات.</div>';
+  const max = Math.max(1, ...rank.map(r => Math.abs(r.v)));
+  const isQty = DF.type && DF.unit === 'qty';
+  return `<div class="rank">${rank.map(r => `<button class="r ${DF.worker === r.id ? 'on' : ''} ${DF.worker && DF.worker !== r.id ? 'dim' : ''}" data-wk="${esc(r.id)}">
+    <span class="nm">${esc(r.name)}</span>
+    <div class="track"><div class="fill" style="width:${Math.max(2, Math.abs(r.v) / max * 100)}%;${r.v < 0 ? 'background:var(--brick)' : ''}"></div></div>
+    <b class="num" style="font-size:13px">${money(r.v)}${isQty ? '' : ''}</b></button>`).join('')}</div>`;
 }
 
 /* ═══════════ الطباعة ═══════════ */
