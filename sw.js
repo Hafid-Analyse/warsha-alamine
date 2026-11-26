@@ -1,5 +1,5 @@
 // ورشة الأمين: تخزين واجهة التطبيق على الجهاز لفتح فوري
-const VERSION = 'wa-v8';
+const VERSION = 'wa-v9';
 const SHELL = ['./', 'index.html', 'manifest.json', 'icon.svg', 'icon-192.png', 'icon-512.png', 'icon-maskable.png'];
 
 self.addEventListener('install', e => {

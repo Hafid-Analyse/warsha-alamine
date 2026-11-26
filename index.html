@@ -524,6 +524,28 @@ main{padding-bottom:calc(120px + var(--safe-b))}
 .slip .netrow{border-color:#C50337;color:#C50337}
 .slip th{background:#F6EEF1}
 
+
+/* النوافذ: صعود سريع أنيق، نزول بنفس الأسلوب، سحب للإغلاق */
+.sheet-bg{animation:bgIn .22s ease backwards;background:rgba(10,12,18,.5);transition:background .2s}
+.sheet-bg.closing{animation:bgOut .24s ease forwards}
+.sheet{position:relative;animation:sheetUp .34s cubic-bezier(.2,.9,.25,1) backwards;will-change:transform;touch-action:pan-y}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes bgIn{from{opacity:0}to{opacity:1}}
+@keyframes bgOut{to{opacity:0}}
+.grip-zone{padding:4px 0 6px;margin:0 -18px;cursor:grab}
+.sheet .grip{width:46px;height:5px;margin:6px auto 4px;background:color-mix(in srgb,var(--muted) 45%,transparent)}
+.sheet-x{position:absolute;top:14px;left:14px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+  background:var(--card-2);color:var(--ink);z-index:2;transition:background .15s,transform .15s}
+.sheet-x svg{width:18px;height:18px}
+.sheet-x:active{transform:scale(.92);background:var(--green-l);color:var(--green)}
+.sheet h3{padding-left:44px}
+.btn-exit{display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-exit svg{width:20px;height:20px}
+@media (min-width:900px){
+  @keyframes sheetUp{from{transform:translateY(24px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+  .grip-zone{display:none}
+}
+@media (prefers-reduced-motion:reduce){.sheet,.sheet-bg{animation:none!important}}
 </style>
 </head>
 <body>
@@ -560,6 +582,7 @@ const IC = {
   x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>',
   right:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>',
   left:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>',
+  logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l-4-4 4-4M6 12h10"/></svg>',
   menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h9"/></svg>',
   install:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></svg>',
   sync:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 12a8 8 0 0 1-14 5.3M4 12a8 8 0 0 1 14-5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>',
@@ -755,17 +778,61 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme
 applyTheme();
 
 /* ═══════════ النوافذ ═══════════ */
+const isDesk = () => matchMedia('(min-width:900px)').matches;
 function openSheet(html, onMount){
-  closeSheet();
+  closeSheet(true);
   const bg = document.createElement('div'); bg.className = 'sheet-bg'; bg.id = 'sheet';
-  bg.innerHTML = `<div class="sheet" role="dialog" aria-modal="true"><div class="grip"></div>${html}</div>`;
+  bg.innerHTML = `<div class="sheet" role="dialog" aria-modal="true"><div class="grip-zone"><div class="grip"></div></div>
+    <button class="sheet-x" aria-label="إغلاق">${IC.x}</button>${html}</div>`;
   bg.addEventListener('click', e => { if (e.target === bg) closeSheet(); });
   document.body.appendChild(bg);
   const sh = $('.sheet', bg);
+  $('.sheet-x', sh).onclick = () => closeSheet();
+  bindDrag(bg, sh);
   if (onMount) onMount(sh);
   return sh;
 }
-function closeSheet(){ const s = $('#sheet'); if (s) s.remove(); }
+/** إغلاق بحركة نازلة سريعة (instant: بلا حركة، عند فتح نافذة مكان أخرى) */
+function closeSheet(instant){
+  const bg = $('#sheet'); if (!bg) return;
+  bg.id = 'sheet-closing';
+  if (instant) { bg.remove(); return; }
+  const sh = $('.sheet', bg);
+  bg.classList.add('closing');
+  sh.style.transition = 'transform .24s cubic-bezier(.5,0,.9,.4), opacity .24s';
+  sh.style.transform = isDesk() ? 'translateY(24px) scale(.96)' : 'translateY(105%)';
+  if (isDesk()) sh.style.opacity = '0';
+  setTimeout(() => bg.remove(), 250);
+}
+/** السحب للأسفل لإغلاق النافذة */
+function bindDrag(bg, sh){
+  let y0 = null, t0 = 0, dy = 0, active = false;
+  sh.addEventListener('touchstart', e => {
+    const fromTop = e.target.closest('.grip-zone') || sh.scrollTop <= 0;
+    if (!fromTop || e.target.closest('input,select,textarea')) { y0 = null; return; }
+    y0 = e.touches[0].clientY; t0 = Date.now(); dy = 0; active = false;
+  }, { passive:true });
+  sh.addEventListener('touchmove', e => {
+    if (y0 === null) return;
+    dy = e.touches[0].clientY - y0;
+    if (dy <= 0) { if (active) { sh.style.transform = ''; } return; }
+    if (!active && dy < 6) return;
+    active = true;
+    e.preventDefault();
+    sh.style.transition = 'none';
+    sh.style.transform = `translateY(${dy}px)`;
+    bg.style.background = `rgba(10,12,18,${Math.max(0, .5 - dy / 900)})`;
+  }, { passive:false });
+  sh.addEventListener('touchend', () => {
+    if (y0 === null || !active) { y0 = null; return; }
+    const v = dy / Math.max(1, Date.now() - t0);
+    y0 = null;
+    if (dy > 110 || v > 0.6) { closeSheet(); return; }
+    sh.style.transition = 'transform .28s cubic-bezier(.2,.9,.25,1)';
+    sh.style.transform = '';
+    bg.style.background = '';
+  });
+}
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 function confirmBox(title, text, okLabel, danger=false){
   return new Promise(resolve => {
@@ -937,7 +1004,7 @@ function openMenu(){
       ${canInstall()?`<button class="btn-ghost" data-install>ثبّت التطبيق على الجهاز</button>`:''}
       ${(Q.items.length||Q.failed.length)?`<button class="btn-ghost" id="m-sync">المزامنة (${Q.items.length + Q.failed.length})</button>`:''}
       <button class="btn-ghost" id="m-refresh">تحديث البيانات</button>
-      <button class="btn-danger" id="m-out">خروج</button>
+      <button class="btn-danger btn-exit" id="m-out">${IC.logout}<span>تسجيل الخروج من التطبيق</span></button>
     </div>`, sh => {
       sh.querySelectorAll('#theme-seg button').forEach(b => b.onclick = () => {
         localStorage.setItem('wa_theme', b.dataset.t); applyTheme();
@@ -948,8 +1015,9 @@ function openMenu(){
       if ($('#m-sync',sh)) $('#m-sync',sh).onclick = openSyncSheet;
       $('#m-refresh',sh).onclick = async (e) => { C = { days:{}, months:{}, slips:{}, dash:{} }; persistCache(); const r = await api('bootstrap', {}, e.currentTarget); if (r.ok) saveBoot(r.data); closeSheet(); goTab(S.tab); };
       $('#m-out',sh).onclick = async () => {
-        if (Q.items.length && !(await confirmBox('عمليات لم تُرسل بعد', `هناك ${Q.items.length} عملية قيد الإرسال. إن خرجت الآن قد لا تُحفظ.`, 'خروج رغم ذلك', true))) return;
-        closeSheet(); Q.items = []; Q.failed = []; persistQ(); logout();
+        const msg = Q.items.length ? `هناك ${Q.items.length} عملية قيد الإرسال. إن خرجت الآن قد لا تُحفظ.` : 'ستحتاج إلى اختيار اسمك وكتابة الرمز السري عند الدخول مرة أخرى.';
+        if (!(await confirmBox('تسجيل الخروج من التطبيق؟', msg, 'تسجيل الخروج', true))) return;
+        closeSheet(true); Q.items = []; Q.failed = []; persistQ(); logout();
       };
     });
 }
