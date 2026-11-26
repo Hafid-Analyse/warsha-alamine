@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1E5B43" id="meta-theme">
+<meta name="theme-color" content="#C50337" id="meta-theme">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -378,6 +378,157 @@ select.month-sel{border-radius:999px;border:1px solid var(--gold);background:var
 .rank .r.on{background:var(--green-l);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 55%,transparent)}
 .rank .r:active,.type-item:active{background:var(--gold-l)}
 @media (max-width:520px){.donut-wrap{grid-template-columns:1fr}.donut-wrap svg{max-width:190px;margin:0 auto}}
+
+/* ═══════════ الهوية: قرمزي وأسود ═══════════ */
+:root{
+  --bg:#F3F1F4; --card:#FFFFFF; --card-2:#F8F6F8; --line:#ECE6EA;
+  --green:#C50337; --green-2:#E1144A; --green-d:#7E0224; --green-l:#FCE9EF; --green-ink:#A0022C;
+  --gold:#C50337; --gold-hi:#FF5C86; --gold-l:#FCE9EF; --gold-ink:#A0022C;
+  --ink:#151820; --muted:#7D7883;
+  --brick:#E07A12; --brick-l:#FDF0E2;
+  --ok:#17996A;
+  --head-a:#D8063F; --head-b:#8A0228; --head-c:#02060E;
+  --on-head:#FFFFFF; --on-head-2:rgba(255,255,255,.72);
+  --shadow:0 12px 28px -18px rgba(30,10,20,.35);
+  --r-xl:30px; --r-lg:24px; --r-md:16px;
+}
+[data-theme="dark"]{
+  --bg:#02060E; --card:#0D1119; --card-2:#131823; --line:#1D2330;
+  --green:#E1144A; --green-2:#FF2D63; --green-d:#7E0224; --green-l:#2A0A15; --green-ink:#FF6B92;
+  --gold:#E1144A; --gold-hi:#FF6B92; --gold-l:#2A0A15; --gold-ink:#FF8AA8;
+  --ink:#EEEFF2; --muted:#8B909B;
+  --brick:#F0922E; --brick-l:#2C1A08;
+  --ok:#2BC08A;
+  --head-a:#C50337; --head-b:#4A0118; --head-c:#02060E;
+  --on-head:#FFFFFF; --on-head-2:rgba(255,255,255,.66);
+  --shadow:0 14px 30px -16px rgba(0,0,0,.8);
+}
+
+/* الرأس: تدرج نظيف + خاتمان كبيران كعلامة مائية */
+.head{padding:18px 20px 62px;
+  background:
+    radial-gradient(90% 120% at 100% 0%, rgba(255,92,134,.35), transparent 55%),
+    linear-gradient(160deg,var(--head-a) 0%,var(--head-b) 52%,var(--head-c) 100%)}
+.head::before{background-image:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160'%3E%3Cg fill='none' stroke='white' stroke-width='3' stroke-linejoin='round'%3E%3Ccircle cx='70' cy='100' r='48'/%3E%3Ccircle cx='128' cy='100' r='48'/%3E%3Cpath d='M114 28h28l9 15-23 23-23-23z M105 43h46'/%3E%3C/g%3E%3C/svg%3E") no-repeat left -30px top -10px / 300px auto;
+  opacity:.09;-webkit-mask-image:none;mask-image:none}
+.waves{display:none}
+.brand{background:none;-webkit-background-clip:initial;background-clip:initial;color:#fff;letter-spacing:.3px}
+.icon-btn{color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);box-shadow:none}
+.install-chip{color:#C50337;background:#fff;border:0;box-shadow:0 8px 18px -10px rgba(0,0,0,.6)}
+.head select.month-sel{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.35)}
+.ring .lbl b{color:#fff}
+.sync-pill{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35)}
+.sync-pill.err{background:#fff;color:#C50337;border-color:#fff}
+
+/* اللوحة الفاتحة تصعد فوق الرأس بزاوية كبيرة */
+main{position:relative;background:var(--bg);margin-top:-34px;border-radius:32px 32px 0 0;padding-top:20px;transition:background .25s}
+.login main{margin-top:-40px}
+
+/* بطاقات: بيضاء، ظل ناعم، بلا حدود ظاهرة */
+.panel,.wcard,.totals>div{border-color:transparent;box-shadow:var(--shadow)}
+[data-theme="dark"] .panel,[data-theme="dark"] .wcard,[data-theme="dark"] .totals>div{border-color:var(--line)}
+.section-h h2,[data-theme="light"] .section-h h2,.sheet h3,[data-theme="light"] .sheet h3,.panel h3.ph,[data-theme="light"] .panel h3.ph{color:var(--ink)}
+.notice.ok{background:color-mix(in srgb,var(--ok) 12%,var(--card));color:var(--ok);border-color:color-mix(in srgb,var(--ok) 30%,transparent)}
+
+/* الأفاتار */
+.av{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-weight:700;font-size:18px;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.25),0 6px 14px -8px rgba(0,0,0,.5)}
+.wl{display:grid;gap:10px}
+.wl .card{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:var(--r-lg);padding:12px 14px;box-shadow:var(--shadow);cursor:pointer;text-align:start;width:100%}
+[data-theme="dark"] .wl .card{border:1px solid var(--line)}
+.wl .card .grow{flex:1;min-width:0}
+.wl .card b{display:block;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wl .card small{display:block;color:var(--muted);font-size:13px}
+.wl .card .amt{font-weight:700;color:var(--green);white-space:nowrap}
+.wl .card.off{opacity:.6}
+@media (min-width:900px){ .wl{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))} }
+
+/* بطاقة العامل في اليوم */
+.wtop .av{width:42px;height:42px;font-size:17px}
+.status{width:46px;height:46px;background:linear-gradient(160deg,var(--green-2),var(--green) 60%,var(--green-d));border:0;
+  box-shadow:0 8px 16px -8px color-mix(in srgb,var(--green) 80%,transparent),inset 0 1px 0 rgba(255,255,255,.3)}
+.status.off{background:var(--card);color:var(--brick);box-shadow:inset 0 0 0 2px var(--brick)}
+.stepbox{border-color:transparent;background:var(--card-2)}
+.step{color:var(--green);border:1px solid var(--line);background:var(--card)}
+[data-theme="light"] .step{color:var(--green)}
+.tile{background:var(--card-2);color:var(--ink);border:0;box-shadow:none}
+.tile svg{color:var(--green)}
+.tile.has{background:var(--green-l);color:var(--green-ink)}
+.movline{color:var(--green-ink)}
+
+/* الأزرار */
+.btn-main{background:linear-gradient(160deg,var(--green-2),var(--green) 55%,var(--green-d));border:0;color:#fff;
+  box-shadow:0 12px 22px -12px color-mix(in srgb,var(--green) 85%,transparent),inset 0 1px 0 rgba(255,255,255,.28)}
+.btn-ghost{background:var(--card);color:var(--green);border:1.5px solid color-mix(in srgb,var(--green) 55%,transparent);box-shadow:none}
+.btn-danger{background:linear-gradient(160deg,#2A2F3A,#02060E);border:1px solid #2A2F3A}
+.btn-small{background:var(--green-l);color:var(--green-ink);border-color:transparent}
+.btn-small.gold{background:var(--card-2);color:var(--ink)}
+.btn-small.red{background:var(--brick-l);color:var(--brick)}
+.seg button.on{background:linear-gradient(160deg,var(--green-2),var(--green));box-shadow:none}
+.chip{background:var(--green);border:0}
+.chip.gold{background:#02060E;color:#fff}
+[data-theme="dark"] .chip.gold{background:#fff;color:#02060E}
+.user-btn{background:var(--card);border:1.5px solid transparent;box-shadow:var(--shadow)}
+.user-btn.on{border-color:var(--green);background:var(--green-l)}
+.user-btn .av{width:44px;height:44px}
+.star{color:#fff}
+.totals .big{background:radial-gradient(120% 120% at 100% 0%,rgba(255,92,134,.3),transparent 60%),linear-gradient(160deg,var(--head-a),var(--head-c));border:0}
+.totals .big b{color:#fff}
+.kv.total{border-top-color:var(--green);color:var(--green)}
+.amount,[data-theme="light"] .amount{color:var(--green)}
+.toast{background:#02060E;border:1px solid #2A2F3A}
+.toast.err{background:var(--brick)}
+#topbar::before{background:linear-gradient(90deg,transparent,#FF5C86,#C50337,transparent)}
+.sheet{border-top:0}
+@media (min-width:900px){ .sheet{border:1px solid var(--line)} }
+.k-green{background:radial-gradient(120% 120% at 100% 0%,rgba(255,92,134,.35),transparent 60%),linear-gradient(160deg,#D8063F,#5A0119 60%,#02060E)}
+.k-gold{background:linear-gradient(150deg,#F0A13A,#B8650C)}
+.rank .fill{background:linear-gradient(90deg,#FF5C86,var(--green))}
+.rank .r.on{background:var(--green-l);box-shadow:inset 0 0 0 1px var(--green)}
+.type-item.on{background:var(--green-l);box-shadow:inset 0 0 0 1px var(--green)}
+
+/* ═══════════ القائمة السفلية: شريط أسود عائم ═══════════ */
+nav.tabs{left:12px;right:12px;bottom:calc(10px + var(--safe-b));border-radius:32px;padding:8px 8px 8px 10px;gap:2px;align-items:center;
+  background:linear-gradient(180deg,#22262F 0%,#0C0E13 100%);border:1px solid #2B303B;backdrop-filter:none;-webkit-backdrop-filter:none;
+  box-shadow:0 18px 34px -14px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.08)}
+nav.tabs .nav-brand{display:none}
+nav.tabs .nav-fab{flex:none;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;margin-left:4px;color:#E1144A;
+  background:radial-gradient(circle at 35% 30%,#3A3F4B,#121419 70%);box-shadow:0 8px 16px -6px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 4px rgba(0,0,0,.6)}
+nav.tabs .nav-fab svg{width:30px;height:30px;stroke-width:2.6}
+nav.tabs .tabs-in{position:relative;flex:1;display:flex;align-items:stretch}
+nav.tabs .tabs-in button{position:relative;z-index:1;flex:1;color:#9AA0AB;padding:8px 0 10px;font-size:11.5px}
+nav.tabs .tabs-in button svg{width:23px;height:23px}
+nav.tabs .tabs-in button.on{color:#fff;font-weight:600}
+nav.tabs .tabs-in button.on svg{color:#E1144A}
+nav.tabs .tabs-in button.on::after{content:"";position:absolute;bottom:2px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#E1144A}
+.nav-ind{position:absolute;top:-8px;bottom:-8px;border-radius:26px;pointer-events:none;transition:left .32s cubic-bezier(.3,.7,.2,1),width .32s;
+  border:1.6px solid #E1144A;border-bottom-color:transparent;
+  background:linear-gradient(180deg,rgba(225,20,74,.16),rgba(225,20,74,0) 75%);
+  box-shadow:0 -6px 16px -8px rgba(225,20,74,.8)}
+.nav-ind::before,.nav-ind::after{content:"";position:absolute;bottom:7px;width:60px;height:1.6px;background:linear-gradient(90deg,#E1144A,transparent)}
+.nav-ind::before{right:-60px;background:linear-gradient(90deg,transparent,#E1144A)}
+.nav-ind::after{left:-60px;background:linear-gradient(270deg,transparent,#E1144A)}
+main{padding-bottom:calc(120px + var(--safe-b))}
+.toast{bottom:calc(100px + var(--safe-b))}
+
+@media (min-width:900px){
+  nav.tabs{top:12px;bottom:12px;right:12px;left:auto;width:calc(var(--nav-w) - 20px);flex-direction:column;justify-content:flex-start;border-radius:28px;padding:18px 10px}
+  .layout{padding-right:var(--nav-w)}
+  nav.tabs .nav-fab{width:64px;height:64px;margin:0 auto 18px}
+  nav.tabs .tabs-in{flex-direction:column;flex:none;gap:4px}
+  nav.tabs .tabs-in button{flex-direction:row;justify-content:flex-start;gap:12px;font-size:15px;padding:12px 16px;border-radius:16px}
+  nav.tabs .tabs-in button.on{background:linear-gradient(90deg,rgba(225,20,74,0),rgba(225,20,74,.18));box-shadow:inset -3px 0 0 #E1144A}
+  nav.tabs .tabs-in button.on::after{display:none}
+  .nav-ind{display:none}
+  main{padding-bottom:40px}
+}
+
+/* الطباعة بالألوان الجديدة */
+.slip{--g:#02060E;--au:#C50337}
+.slip .netrow{border-color:#C50337;color:#C50337}
+.slip th{background:#F6EEF1}
+
 </style>
 </head>
 <body>
@@ -459,6 +610,9 @@ const offDayIdx = () => ({'الأحد':0,'الاثنين':1,'الإثنين':1,'
 const isOff = s => dObj(s).getUTCDay() === offDayIdx();
 const typeById = id => S.boot.types.find(t=>t.id===id);
 const wageDesc = w => w.wageType==='بدون' ? 'بالقطع فقط' : (w.wageType==='يومي'?'يومي':'شهري') + (w.pieces?' + قطع':'');
+const AV_COLORS = ['#C50337','#2F6FDE','#17996A','#E07A12','#8C5BA0','#0E8C9A','#D94E7A','#4B5563'];
+const avColor = s => { let h = 0; for (const ch of String(s)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return AV_COLORS[h % AV_COLORS.length]; };
+const avatar = (name, key) => `<span class="av" style="background:linear-gradient(160deg,${avColor(key||name)},${avColor(key||name)}cc)">${esc(String(name||'؟').trim().charAt(0))}</span>`;
 const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const clone = o => JSON.parse(JSON.stringify(o));
 const monthClosed = m => !!(S.boot.months.find(x => x.month === m && x.status === 'مغلق'));
@@ -600,7 +754,7 @@ function applyTheme(){
   const t = localStorage.getItem('wa_theme') || 'auto';
   const dark = t === 'dark' || (t === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
   document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-  $('#meta-theme').setAttribute('content', dark ? '#123E2E' : '#1E5B43');
+  $('#meta-theme').setAttribute('content', dark ? '#02060E' : '#C50337');
 }
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
 applyTheme();
@@ -642,7 +796,7 @@ async function renderLogin(){
   if (!r.ok) { panel.innerHTML = `<div class="notice warn">${esc(r.error)}</div><button class="btn-main" onclick="renderLogin()">إعادة المحاولة</button>`; return; }
   let chosen = r.data.length === 1 ? r.data[0].id : null;
   panel.innerHTML = `<div class="section-h" style="margin-top:0"><h2>من يدخل؟</h2></div>
-    <div class="users">${r.data.map(u=>`<button class="user-btn" data-id="${esc(u.id)}"><span class="av">${esc(u.name.trim()[0]||'؟')}</span><b>${esc(u.name)}</b></button>`).join('')}</div>
+    <div class="users">${r.data.map(u=>`<button class="user-btn" data-id="${esc(u.id)}">${avatar(u.name, u.id)}<b>${esc(u.name)}</b></button>`).join('')}</div>
     <div class="field"><label for="pin">الرمز السري</label><input id="pin" class="pin num" type="password" inputmode="numeric" autocomplete="current-password"></div>
     <button class="btn-main" id="login-btn">دخول</button>`;
   const mark = () => panel.querySelectorAll('.user-btn').forEach(b => b.classList.toggle('on', b.dataset.id === chosen));
@@ -683,28 +837,34 @@ function startApp(){
 
 function renderShell(){
   const tabs = S.mode === 'dash' ? DASH_TABS : SUP_TABS;
-  const modeBtn = isMgr() ? `<button class="mode-btn" data-mode>${IC.swap}<span>${S.mode === 'dash' ? 'واجهة المسؤول' : 'التقارير'}</span></button>` : '';
   $('#app').innerHTML = `<div class="layout"><div id="head"></div><main id="main"></main></div>
-  <nav class="tabs"><div class="nav-brand">${esc(S.boot.settings.workshopName)}</div>
-    ${tabs.map(([k,l])=>`<button data-tab="${k}">${IC[k]}<span>${l}</span></button>`).join('')}${modeBtn}
+  <nav class="tabs"><button class="nav-fab" data-menu aria-label="القائمة">${RINGS_SVG}</button>
+    <div class="tabs-in"><span class="nav-ind" aria-hidden="true"></span>${tabs.map(([k,l])=>`<button data-tab="${k}">${IC[k]}<span>${l}</span></button>`).join('')}</div>
   </nav>`;
+  $('nav.tabs [data-menu]').onclick = openMenu;
   document.querySelectorAll('nav.tabs button[data-tab]').forEach(b => b.onclick = () => {
     if (S.tab === 'day' && S.dirty && b.dataset.tab !== 'day' && !confirm('لم تحفظ تقرير اليوم. هل تريد المغادرة؟')) return;
     if (b.dataset.tab !== 'day') S.dirty = false;
     goTab(b.dataset.tab);
   });
-  const mb = $('nav.tabs [data-mode]');
-  if (mb) mb.onclick = () => {
-    if (S.dirty && !confirm('لم تحفظ تقرير اليوم. هل تريد المغادرة؟')) return;
-    S.dirty = false; S.mode = S.mode === 'dash' ? 'sup' : 'dash'; LS.set('wa_mode', S.mode);
-    if (!S.date) S.date = S.boot.nextDay;
-    renderShell(); goTab(S.mode === 'dash' ? 'dash' : 'day');
-  };
 }
+function switchMode(){
+  if (S.dirty && !confirm('لم تحفظ تقرير اليوم. هل تريد المغادرة؟')) return;
+  S.dirty = false; S.mode = S.mode === 'dash' ? 'sup' : 'dash'; LS.set('wa_mode', S.mode);
+  if (!S.date) S.date = S.boot.nextDay;
+  renderShell(); goTab(S.mode === 'dash' ? 'dash' : 'day');
+}
+function moveInd(){
+  const ind = $('.nav-ind'), on = $('nav.tabs .tabs-in button.on');
+  if (!ind || !on) return;
+  ind.style.left = on.offsetLeft + 'px'; ind.style.width = on.offsetWidth + 'px';
+}
+window.addEventListener('resize', moveInd);
 
 function goTab(tab){
   S.tab = tab;
   document.querySelectorAll('nav.tabs button[data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
+  moveInd();
   window.scrollTo(0,0);
   ({ day:renderDay, workers:renderWorkers, pieces:renderPieces, month:renderMonth, print:renderPrint, dash:renderDash })[tab]();
 }
@@ -714,7 +874,7 @@ function head({title, sub, extra='', ring=null}){
   if (ring) {
     const pct = ring.total ? ring.done / ring.total : 0, R = 34, Cc = 2*Math.PI*R;
     ringHtml = `<div class="ring" aria-label="أيام محفوظة ${ring.done} من ${ring.total}"><svg viewBox="0 0 80 80">
-      <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0D59A"/><stop offset="1" stop-color="#C9A04E"/></linearGradient></defs>
+      <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#FFB3C7"/></linearGradient></defs>
       <circle cx="40" cy="40" r="${R}" stroke="rgba(255,255,255,.14)" stroke-width="6" fill="none"/>
       <circle cx="40" cy="40" r="${R}" stroke="url(#rg)" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="${Cc}" stroke-dashoffset="${Cc*(1-pct)}"/></svg>
       <div class="lbl"><span><b class="num">${ring.done}/${ring.total}</b>يوم</span></div></div>`;
@@ -722,11 +882,10 @@ function head({title, sub, extra='', ring=null}){
   $('#head').innerHTML = `<header class="head"><div class="head-inner">
     <div class="head-top">
       <div><div class="brand">${esc(S.boot.settings.workshopName)}</div><span class="brand-sub">${esc(S.user.name)}</span></div>
-      <div class="head-actions"><span data-sync-slot>${syncHtml()}</span><span data-install-slot>${installBtnHtml()}</span><button class="icon-btn" id="menu-btn" aria-label="القائمة">${IC.menu}</button></div>
+      <div class="head-actions"><span data-sync-slot>${syncHtml()}</span><span data-install-slot>${installBtnHtml()}</span></div>
     </div>
     <div class="head-body"><div><div class="head-title">${title}</div><div class="head-sub">${sub||''}</div>${extra}</div>${ringHtml}</div>
   </div>${WAVES}</header>`;
-  $('#menu-btn').onclick = openMenu;
   bindInstall($('#head'));
   syncBadge();
 }
@@ -736,6 +895,7 @@ function openMenu(){
   openSheet(`<h3>القائمة</h3><div class="sub">${esc(S.user.name)}</div>
     <div class="field"><label>المظهر</label><div class="seg" id="theme-seg">${[['light','فاتح'],['dark','ليلي'],['auto','تلقائي']].map(([k,l])=>`<button data-t="${k}" class="${k===t?'on':''}">${l}</button>`).join('')}</div></div>
     <div class="actions">
+      ${isMgr()?`<button class="btn-main" id="m-mode">${S.mode === 'dash' ? 'فتح واجهة المسؤول' : 'الرجوع إلى التقارير'}</button>`:''}
       ${canInstall()?`<button class="btn-ghost" data-install>ثبّت التطبيق على الجهاز</button>`:''}
       ${(Q.items.length||Q.failed.length)?`<button class="btn-ghost" id="m-sync">المزامنة (${Q.items.length + Q.failed.length})</button>`:''}
       <button class="btn-ghost" id="m-refresh">تحديث البيانات</button>
@@ -746,6 +906,7 @@ function openMenu(){
         sh.querySelectorAll('#theme-seg button').forEach(x => x.classList.toggle('on', x === b));
       });
       bindInstall(sh);
+      if ($('#m-mode',sh)) $('#m-mode',sh).onclick = () => { closeSheet(); switchMode(); };
       if ($('#m-sync',sh)) $('#m-sync',sh).onclick = openSyncSheet;
       $('#m-refresh',sh).onclick = async (e) => { C = { days:{}, months:{}, slips:{}, dash:{} }; persistCache(); const r = await api('bootstrap', {}, e.currentTarget); if (r.ok) saveBoot(r.data); closeSheet(); goTab(S.tab); };
       $('#m-out',sh).onclick = async () => {
@@ -873,8 +1034,9 @@ function workerCard(w, i, edit){
   const movLine = w.movements.length ? `<div class="movline">${w.movements.map(m=>`${m.type} ${money(m.amount)} دج`).join(' · ')}</div>` : '';
   return `<div class="wcard ${absent?'absent':''}" data-i="${i}">
     <div class="wtop">
-      <button class="status ${absent?'off':''}" data-i="${i}" ${edit?'':'disabled'} aria-pressed="${!absent}" aria-label="${esc(w.name)}: ${absent?'غائب':'حاضر'}">${absent?IC.x:IC.check}</button>
+      ${avatar(w.name, w.id)}
       <div class="wname"><b>${esc(w.name)}</b><span>${wageDesc(w)}${w.hours?` · ${w.hours} سا/يوم`:''}</span></div>
+      <button class="status ${absent?'off':''}" data-i="${i}" ${edit?'':'disabled'} aria-pressed="${!absent}" aria-label="${esc(w.name)}: ${absent?'غائب':'حاضر'}">${absent?IC.x:IC.check}</button>
     </div>
     <div class="wgrid">
       ${absent ? `<div class="abs-note">غائب اليوم</div>` : (hasHours ? stepbox('absHours','ساعات الغياب', w.absHours) + stepbox('otHours','ساعات إضافية', w.otHours) : '')}
@@ -1056,12 +1218,12 @@ function renderWorkers(){
   const ws = S.boot.workers;
   const active = ws.filter(w => w.status !== 'متوقف'), stopped = ws.filter(w => w.status === 'متوقف');
   head({ title:'العمال', sub:`${active.length} نشط${stopped.length?` · ${stopped.length} متوقف`:''}` });
-  const item = w => `<div class="list-item" data-w="${esc(w.id)}" role="button" tabindex="0">
-    <div class="grow"><b>${esc(w.name)}</b><small>${wageDesc(w)}${w.wageType!=='بدون'?` · <span class="num">${money(w.wage)}</span> دج · ${w.hours} سا/يوم`:''}</small></div>
-    ${w.status==='متوقف'?`<span class="tag red">متوقف</span>`:''}</div>`;
-  $('#main').innerHTML = `<div class="actions" style="margin:0 0 12px;max-width:420px"><button class="btn-main" id="add-w">إضافة عامل</button></div>
-    <div class="panel">${active.length?active.map(item).join(''):'<div class="empty">لا يوجد عمال بعد. أضف أول عامل.</div>'}</div>
-    ${stopped.length?`<div class="section-h"><h2>المتوقفون</h2></div><div class="panel">${stopped.map(item).join('')}</div>`:''}`;
+  const item = w => `<button class="card ${w.status==='متوقف'?'off':''}" data-w="${esc(w.id)}">${avatar(w.name, w.id)}
+    <div class="grow"><b>${esc(w.name)}</b><small>${wageDesc(w)}${w.hours?` · ${w.hours} سا/يوم`:''}</small></div>
+    ${w.wageType!=='بدون'?`<span class="amt"><span class="num">${money(w.wage)}</span> دج</span>`:`<span class="tag">قطع</span>`}</button>`;
+  $('#main').innerHTML = `<div class="actions" style="margin:0 0 14px;max-width:420px"><button class="btn-main" id="add-w">إضافة عامل</button></div>
+    ${active.length ? `<div class="wl">${active.map(item).join('')}</div>` : '<div class="panel empty">لا يوجد عمال بعد. أضف أول عامل.</div>'}
+    ${stopped.length?`<div class="section-h"><h2>المتوقفون</h2></div><div class="wl">${stopped.map(item).join('')}</div>`:''}`;
   $('#add-w').onclick = () => workerForm(null);
   $('#main').querySelectorAll('[data-w]').forEach(el => el.onclick = () => workerForm(ws.find(w => w.id === el.dataset.w)));
 }
@@ -1078,9 +1240,11 @@ function workerForm(w){
     <label class="switch" id="f-pcs-row"><span>يعمل بالقطع أيضًا</span><input type="checkbox" id="f-pcs" ${v.pieces?'checked':''}></label>
     <div class="two"><div class="field"><label for="f-join">تاريخ الالتحاق</label><input id="f-join" type="date" value="${esc(v.joinDate)}"></div>
     <div class="field"><label for="f-leave">تاريخ المغادرة</label><input id="f-leave" type="date" value="${esc(v.leaveDate||'')}"></div></div>
-    <label class="switch"><span>متوقف عن العمل</span><input type="checkbox" id="f-stop" ${v.status==='متوقف'?'checked':''}></label>
     <div class="field"><label for="f-note">ملاحظة</label><input id="f-note" value="${esc(v.note||'')}"></div>
-    <div class="actions"><button class="btn-main" id="f-save">حفظ</button><button class="btn-ghost" id="f-cancel">إلغاء</button></div>`);
+    <div class="actions"><button class="btn-main" id="f-save">حفظ</button><button class="btn-ghost" id="f-cancel">إلغاء</button></div>
+    ${w ? `<div class="actions" style="grid-template-columns:1fr 1fr;margin-top:10px">
+      ${v.status==='متوقف' ? `<button class="btn-small" style="padding:10px" id="f-react">إعادة التنشيط</button>` : `<button class="btn-small red" style="padding:10px" id="f-deact">إلغاء التنشيط</button>`}
+      <button class="btn-small" style="padding:10px;background:#02060E;color:#fff" id="f-del">حذف العامل</button></div>` : ''}`);
   const setType = t => {
     wageType = t;
     sh.querySelectorAll('#f-type button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
@@ -1106,11 +1270,23 @@ function workerForm(w){
     markStale(); closeSheet(); toast('حُفظ العامل'); renderWorkers();
   };
 
+  const quick = (status, leaveDate) => {
+    const data = { name:w.name, phone:w.phone||'', wageType:w.wageType, wage:w.wage, hours:w.hours, pieces:w.pieces, joinDate:w.joinDate, leaveDate, status, note:w.note||'' };
+    commit(data);
+  };
+  if ($('#f-deact',sh)) $('#f-deact',sh).onclick = async () => {
+    const ok = await confirmBox('إلغاء تنشيط ' + w.name, 'يُسجَّل تاريخ مغادرته اليوم، فلا يظهر في التقارير اليومية القادمة. تبقى كل أرقامه وأوراقه السابقة كما هي، ويمكن إعادة تنشيطه لاحقًا.', 'إلغاء التنشيط');
+    if (ok) quick('متوقف', S.boot.today);
+  };
+  if ($('#f-react',sh)) $('#f-react',sh).onclick = () => quick('نشط', '');
+  if ($('#f-del',sh)) $('#f-del',sh).onclick = () => deleteWorkerFlow(w);
+
   $('#f-save',sh).onclick = () => {
     const data = { name:$('#f-name',sh).value.trim(), phone:$('#f-phone',sh).value.trim(), wageType,
       wage: parseFloat($('#f-wage',sh).value) || 0, hours: parseFloat($('#f-hours',sh).value) || 0,
       pieces: wageType==='بدون' ? true : $('#f-pcs',sh).checked,
-      joinDate:$('#f-join',sh).value, leaveDate:$('#f-leave',sh).value, status:$('#f-stop',sh).checked?'متوقف':'نشط', note:$('#f-note',sh).value.trim() };
+      joinDate:$('#f-join',sh).value, leaveDate:$('#f-leave',sh).value, status:'نشط', note:$('#f-note',sh).value.trim() };
+    if (data.leaveDate && data.leaveDate <= S.boot.today) data.status = 'متوقف';
     if (!data.name) return toast('اسم العامل مطلوب', true);
     if (wageType !== 'بدون' && !(data.wage > 0)) return toast('قيمة الأجر مطلوبة', true);
     if (wageType !== 'بدون' && !(data.hours > 0)) return toast('عدد ساعات العمل اليومية مطلوب', true);
@@ -1126,6 +1302,27 @@ function workerForm(w){
       commit(data, b.dataset.a);
     });
   };
+}
+
+async function deleteWorkerFlow(w){
+  if (String(w.id).startsWith('tmp') || Q.items.length) return toast('انتظر حتى تُرسل العمليات الجارية ثم أعد المحاولة', true);
+  const ok = await confirmBox('حذف ' + w.name + ' نهائيًا؟', 'يُحذف فقط إن لم يكن له أي تقرير أو قطع أو حركة مالية. هذا لا يمكن التراجع عنه.', 'حذف العامل', true);
+  if (!ok) return;
+  const r = await api('deleteWorker', { id:w.id });
+  if (r.ok) { saveBoot(r.data.boot); C.days = {}; markStale(); toast('حُذف العامل'); return renderWorkers(); }
+  if (!r.hasData) return toast(r.error, true);
+  openSheet(`<h3>لا يمكن الحذف</h3><div class="sub">${esc(r.error)}</div>
+    <div class="actions"><button class="btn-main" id="d-deact">إلغاء التنشيط</button><button class="btn-ghost" id="d-no">رجوع</button></div>`, sh => {
+      $('#d-no',sh).onclick = closeSheet;
+      $('#d-deact',sh).onclick = () => {
+        const data = { name:w.name, phone:w.phone||'', wageType:w.wageType, wage:w.wage, hours:w.hours, pieces:w.pieces, joinDate:w.joinDate, leaveDate:S.boot.today, status:'متوقف', note:w.note||'' };
+        const pub = Object.assign({}, w, { status:'متوقف', leaveDate:S.boot.today });
+        S.boot.workers[S.boot.workers.findIndex(x => x.id === w.id)] = pub; saveBoot(S.boot);
+        enqueue('saveWorker', { worker: Object.assign({}, data, { id:w.id }) }, 'إلغاء تنشيط ' + w.name);
+        C.days = Object.fromEntries(Object.entries(C.days).filter(([k,d]) => d.dayStatus !== 'جديد'));
+        markStale(); closeSheet(); toast('أُلغي تنشيط العامل'); renderWorkers();
+      };
+    });
 }
 
 /* ═══════════ أنواع القطع ═══════════ */
@@ -1193,7 +1390,7 @@ function drawMonth(M){
     <div><span>الإضافية</span><b>${dz(T.otValue)}</b></div><div><span>الدفعات</span><b>${dz(T.advances)}</b></div>
     ${T.bonuses?`<div><span>المنح</span><b>${dz(T.bonuses)}</b></div>`:''}${T.deductions?`<div><span>الخصومات</span><b>${dz(T.deductions)}</b></div>`:''}
   </div>`;
-  html += `<div class="section-h"><h2>العمال</h2></div><div class="panel">${M.rows.length ? M.rows.map(x=>`<div class="list-item" data-w="${esc(x.workerId)}" role="button" tabindex="0">
+  html += `<div class="section-h"><h2>العمال</h2></div><div class="panel">${M.rows.length ? M.rows.map(x=>`<div class="list-item" data-w="${esc(x.workerId)}" role="button" tabindex="0">${avatar(x.name, x.workerId)}
       <div class="grow"><b>${esc(x.name)}</b><small>${x.workDays} يوم عمل${x.absentDays?` · ${x.absentDays} غياب`:''}${x.advances?` · دفعات <span class="num">${money(x.advances)}</span>`:''}</small></div>
       <span class="amount">${dz(x.net)}</span></div>`).join('') : '<div class="empty">لا توجد بيانات لهذا الشهر.</div>'}</div>`;
   html += closed ? `<div class="actions" style="max-width:520px"><button class="btn-main" id="m-print">طباعة أوراق الشهر</button><button class="btn-ghost" id="m-reopen">إعادة فتح الشهر</button></div>`
@@ -1294,7 +1491,7 @@ function deltaHtml(cur, prev){
   return `<span class="delta">${p >= 0 ? '▲' : '▼'} <span class="num">${Math.abs(p).toFixed(0)}%</span></span>`;
 }
 
-const DONUT_COLORS = ['#1E5B43','#C9A04E','#2F8C9A','#C2604A','#8C5BA0','#D58A3A','#5E8C3A','#3E5A6E'];
+const DONUT_COLORS = ['#C50337','#2F6FDE','#17996A','#E07A12','#8C5BA0','#0E8C9A','#D94E7A','#6B7280'];
 const workerName = (D, id) => { const r = D.summary.rows.find(x => x.workerId === id); if (r) return r.name; const w = S.boot.workers.find(x => x.id === id); return w ? w.name : id; };
 const typeName = (D, id) => (D.typeNames && D.typeNames[id]) || (typeById(id) || {}).name || id;
 
@@ -1346,7 +1543,7 @@ function drawDash(D){
   let todayHtml;
   if (tdy.off) todayHtml = `<div class="dot" style="background:var(--gold)">${IC.day}</div><div><b>اليوم عطلة أسبوعية</b></div>`;
   else if (tdy.closed) todayHtml = `<div class="dot" style="background:var(--muted)">${IC.x}</div><div><b>الورشة مغلقة اليوم</b></div>`;
-  else if (tdy.saved) todayHtml = `<div class="dot" style="background:var(--green)">${IC.ok}</div><div><b>تقرير اليوم محفوظ</b><br><small style="color:var(--muted)"><span class="num">${tdy.present}</span> حاضر · <span class="num">${tdy.absent}</span> غائب من <span class="num">${tdy.required}</span></small></div>`;
+  else if (tdy.saved) todayHtml = `<div class="dot" style="background:var(--ok)">${IC.ok}</div><div><b>تقرير اليوم محفوظ</b><br><small style="color:var(--muted)"><span class="num">${tdy.present}</span> حاضر · <span class="num">${tdy.absent}</span> غائب من <span class="num">${tdy.required}</span></small></div>`;
   else todayHtml = `<div class="dot" style="background:var(--brick)">${IC.warn}</div><div><b>تقرير اليوم لم يُحفظ بعد</b><br><small style="color:var(--muted)">${tdy.required} عامل مطلوب</small></div>`;
 
   const cmpNote = D.prev ? (D.prev.partial
@@ -1388,7 +1585,7 @@ function drawDash(D){
       <div class="panel"><h3 class="ph">أنواع القطع${DF.worker ? ' · ' + esc(workerName(D, DF.worker)) : ''}</h3>${typesDonut(D, M.types)}</div>
       <div class="panel"><h3 class="ph">${rankTitle}</h3>${workersRank(M.rank)}</div>
       <div class="panel wide"><h3 class="ph">${attTitle}</h3>${attendanceChart(D.series, DF.worker ? M.attByDate : null)}
-        <div class="legend"><span><i style="background:var(--green)"></i>حاضر</span><span><i style="background:var(--brick)"></i>غائب</span><span><i style="background:var(--line)"></i>مغلقة أو عطلة</span></div></div>
+        <div class="legend"><span><i style="background:var(--ok)"></i>حاضر</span><span><i style="background:var(--brick)"></i>غائب</span><span><i style="background:var(--line)"></i>مغلقة أو عطلة</span></div></div>
       ${alerts.length ? `<div class="panel wide"><h3 class="ph">تنبيهات</h3>${alerts.map(a => `<div class="alert-row"><span style="color:var(--brick)">●</span><span>${a}</span></div>`).join('')}</div>` : ''}
     </div>`;
 
@@ -1410,13 +1607,13 @@ function attendanceChart(series, one){
     if (one) {
       const st = one[s.date];
       if (s.off || s.closed || st === undefined) bars += `<rect x="${x}" y="${H-pad-6}" width="${w}" height="6" rx="2" fill="var(--line)"/>`;
-      else bars += `<rect x="${x}" y="${pad}" width="${w}" height="${full}" rx="3" fill="${st ? 'var(--green)' : 'var(--brick)'}"/>`;
+      else bars += `<rect x="${x}" y="${pad}" width="${w}" height="${full}" rx="3" fill="${st ? 'var(--ok)' : 'var(--brick)'}"/>`;
     } else {
       const total = s.present + s.absent;
       if (s.off || s.closed || !total) bars += `<rect x="${x}" y="${H-pad-6}" width="${w}" height="6" rx="2" fill="var(--line)"/>`;
       else {
         const hp = (s.present / max) * full, ha = (s.absent / max) * full;
-        bars += `<rect x="${x}" y="${H-pad-hp}" width="${w}" height="${hp}" rx="3" fill="var(--green)"/>`;
+        bars += `<rect x="${x}" y="${H-pad-hp}" width="${w}" height="${hp}" rx="3" fill="var(--ok)"/>`;
         if (ha) bars += `<rect x="${x}" y="${H-pad-hp-ha-1}" width="${w}" height="${ha}" rx="3" fill="var(--brick)"/>`;
       }
     }
@@ -1441,7 +1638,7 @@ function productionChart(prod){
   prod.forEach((s, i) => { const day = +s.date.slice(8); if (n <= 12 || day % 5 === 0 || day === 1) labels += `<text x="${X(i)}" y="${H-6}" text-anchor="middle">${day}</text>`; });
   const best = prod.reduce((b, s) => s.v > b.v ? s : b, prod[0]);
   const fmtV = v => isQty ? `<span class="num">${money(v)}</span> قطعة` : dz(v);
-  const col = isQty ? '#2F8C9A' : '#C9A04E';
+  const col = isQty ? '#2F6FDE' : '#C50337';
   return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="الإنتاج اليومي">
     <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".5"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>
     <path d="${area}" fill="url(#pg)"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round"/>
