@@ -497,18 +497,13 @@ nav.tabs .nav-fab{flex:none;width:54px;height:54px;border-radius:50%;display:gri
   background:radial-gradient(circle at 35% 30%,#3A3F4B,#121419 70%);box-shadow:0 8px 16px -6px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 4px rgba(0,0,0,.6)}
 nav.tabs .nav-fab svg{width:30px;height:30px;stroke-width:2.6}
 nav.tabs .tabs-in{position:relative;flex:1;display:flex;align-items:stretch}
-nav.tabs .tabs-in button{position:relative;z-index:1;flex:1;color:#9AA0AB;padding:8px 0 10px;font-size:11.5px}
+nav.tabs .tabs-in button{position:relative;z-index:1;flex:1;color:#9AA0AB;padding:10px 0 12px;gap:8px;font-size:11.5px}
 nav.tabs .tabs-in button svg{width:23px;height:23px}
 nav.tabs .tabs-in button.on{color:#fff;font-weight:600}
 nav.tabs .tabs-in button.on svg{color:#E1144A}
-nav.tabs .tabs-in button.on::after{content:"";position:absolute;bottom:2px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#E1144A}
-.nav-ind{position:absolute;top:-8px;bottom:-8px;border-radius:26px;pointer-events:none;transition:left .32s cubic-bezier(.3,.7,.2,1),width .32s;
-  border:1.6px solid #E1144A;border-bottom-color:transparent;
-  background:linear-gradient(180deg,rgba(225,20,74,.16),rgba(225,20,74,0) 75%);
-  box-shadow:0 -6px 16px -8px rgba(225,20,74,.8)}
-.nav-ind::before,.nav-ind::after{content:"";position:absolute;bottom:7px;width:60px;height:1.6px;background:linear-gradient(90deg,#E1144A,transparent)}
-.nav-ind::before{right:-60px;background:linear-gradient(90deg,transparent,#E1144A)}
-.nav-ind::after{left:-60px;background:linear-gradient(270deg,transparent,#E1144A)}
+nav.tabs .nav-curve{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0}
+nav.tabs .nav-fab{position:relative;z-index:2}
+nav.tabs .tabs-in button.on::after{content:"";position:absolute;top:34px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#E1144A}
 main{padding-bottom:calc(120px + var(--safe-b))}
 .toast{bottom:calc(100px + var(--safe-b))}
 
@@ -520,7 +515,7 @@ main{padding-bottom:calc(120px + var(--safe-b))}
   nav.tabs .tabs-in button{flex-direction:row;justify-content:flex-start;gap:12px;font-size:15px;padding:12px 16px;border-radius:16px}
   nav.tabs .tabs-in button.on{background:linear-gradient(90deg,rgba(225,20,74,0),rgba(225,20,74,.18));box-shadow:inset -3px 0 0 #E1144A}
   nav.tabs .tabs-in button.on::after{display:none}
-  .nav-ind{display:none}
+  nav.tabs .nav-curve{display:none}
   main{padding-bottom:40px}
 }
 
@@ -839,9 +834,14 @@ function renderShell(){
   const tabs = S.mode === 'dash' ? DASH_TABS : SUP_TABS;
   $('#app').innerHTML = `<div class="layout"><div id="head"></div><main id="main"></main></div>
   <nav class="tabs"><button class="nav-fab" data-menu aria-label="القائمة">${RINGS_SVG}</button>
-    <div class="tabs-in"><span class="nav-ind" aria-hidden="true"></span>${tabs.map(([k,l])=>`<button data-tab="${k}">${IC[k]}<span>${l}</span></button>`).join('')}</div>
+    <svg class="nav-curve" aria-hidden="true"><defs><linearGradient id="nc-g" gradientUnits="userSpaceOnUse"></linearGradient>
+      <linearGradient id="nc-f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E1144A" stop-opacity=".22"/><stop offset="1" stop-color="#E1144A" stop-opacity="0"/></linearGradient>
+      <filter id="nc-glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <path class="nc-fill" fill="url(#nc-f)"/><path class="nc-line" fill="none" stroke="url(#nc-g)" stroke-width="2" stroke-linecap="round" filter="url(#nc-glow)"/></svg>
+    <div class="tabs-in">${tabs.map(([k,l])=>`<button data-tab="${k}">${IC[k]}<span>${l}</span></button>`).join('')}</div>
   </nav>`;
   $('nav.tabs [data-menu]').onclick = openMenu;
+  curveCur = null;
   document.querySelectorAll('nav.tabs button[data-tab]').forEach(b => b.onclick = () => {
     if (S.tab === 'day' && S.dirty && b.dataset.tab !== 'day' && !confirm('لم تحفظ تقرير اليوم. هل تريد المغادرة؟')) return;
     if (b.dataset.tab !== 'day') S.dirty = false;
@@ -854,12 +854,50 @@ function switchMode(){
   if (!S.date) S.date = S.boot.nextDay;
   renderShell(); goTab(S.mode === 'dash' ? 'dash' : 'day');
 }
-function moveInd(){
-  const ind = $('.nav-ind'), on = $('nav.tabs .tabs-in button.on');
-  if (!ind || !on) return;
-  ind.style.left = on.offsetLeft + 'px'; ind.style.width = on.offsetWidth + 'px';
+/* المنحنى: يخرج متلاشيًا من الدائرة، يصعد نصف دائرة فوق التبويب النشط، ثم يمتد خطًا طويلًا تحت بقية الرموز ويتلاشى */
+let curveAnim = null, curveCur = null;
+function curveGeom(){
+  const nav = $('nav.tabs'), on = $('nav.tabs .tabs-in button.on'), fab = $('nav.tabs .nav-fab');
+  if (!nav || !on || !fab || getComputedStyle(nav).flexDirection === 'column') return null;
+  const nb = nav.getBoundingClientRect(), ob = on.getBoundingClientRect(), fb = fab.getBoundingClientRect();
+  const rtl = fb.left > ob.left;                         // الدائرة في جهة البداية (يمين في العربية)
+  return { W: nb.width, H: nb.height, L: ob.left - nb.left + 2, R: ob.right - nb.left - 2,
+           start: rtl ? fb.left - nb.left + fb.width * 0.35 : fb.right - nb.left - fb.width * 0.35, end: rtl ? 14 : nb.width - 14, rtl };
 }
-window.addEventListener('resize', moveInd);
+function drawCurve(g){
+  const svg = $('nav.tabs .nav-curve'); if (!svg || !g) return;
+  const { W, H, L, R, start, end, rtl } = g;
+  const yb = H - 8, yt = 5, rb = 14, rr = (R - L) / 2;            // rr: نصف دائرة القمة، rb: انحناءة القاعدة
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  // من جهة الدائرة إلى الطرف الآخر
+  const a = rtl ? R : L, b = rtl ? L : R, s = rtl ? 1 : -1, sw = rtl ? 0 : 1;   // a: حافة التبويب القريبة من الدائرة
+  const hump = `Q${a} ${yb} ${a} ${yb - rb} L${a} ${yt + rr} A${rr} ${rr} 0 0 ${sw} ${b} ${yt + rr} L${b} ${yb - rb} Q${b} ${yb} ${b - s*rb} ${yb}`;
+  const k = rb;
+  const d = `M${start} ${yb} L${a + s*rb} ${yb} ${hump} L${end} ${yb}`;
+  const fill = `M${a + s*rb} ${yb} ${hump} Z`;
+  $('.nc-line', svg).setAttribute('d', d);
+  $('.nc-fill', svg).setAttribute('d', fill);
+  const gr = $('#nc-g', svg);
+  gr.setAttribute('x1', start); gr.setAttribute('x2', end); gr.setAttribute('y1', 0); gr.setAttribute('y2', 0);
+  const span = end - start, off = x => Math.min(1, Math.max(0, (x - start) / span));
+  const nearA = off(a + s*k), farB = off(b - s*k);
+  gr.innerHTML = `<stop offset="0" stop-color="#E1144A" stop-opacity="0"/><stop offset="${nearA}" stop-color="#E1144A" stop-opacity="1"/>`
+    + `<stop offset="${farB}" stop-color="#E1144A" stop-opacity="1"/><stop offset="${Math.min(1, farB + (1 - farB) * 0.55)}" stop-color="#E1144A" stop-opacity=".45"/><stop offset="1" stop-color="#E1144A" stop-opacity="0"/>`;
+}
+function moveInd(){
+  const g = curveGeom(); if (!g) return;
+  cancelAnimationFrame(curveAnim);
+  if (!curveCur || Math.abs(curveCur.W - g.W) > 1) { curveCur = g; drawCurve(g); return; }
+  const from = { L: curveCur.L, R: curveCur.R }, t0 = performance.now(), dur = 320;
+  const step = now => {
+    const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+    curveCur = Object.assign({}, g, { L: from.L + (g.L - from.L) * e, R: from.R + (g.R - from.R) * e });
+    drawCurve(curveCur);
+    if (p < 1) curveAnim = requestAnimationFrame(step);
+  };
+  curveAnim = requestAnimationFrame(step);
+}
+window.addEventListener('resize', () => { curveCur = null; moveInd(); });
 
 function goTab(tab){
   S.tab = tab;
